@@ -38,7 +38,7 @@ function UCSBOrganizationForm({
       <Form.Group className="mb-3">
         <Form.Label htmlFor="orgCode">Organization Code</Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-orgCodee"}
+          data-testid={testIdPrefix + "-orgCode"}
           id="orgCode"
           type="text"
           isInvalid={Boolean(errors.orgCode)}
