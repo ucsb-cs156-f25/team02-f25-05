@@ -36,7 +36,7 @@ function UCSBOrganizationForm({
       )}
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="orgCode">orgCode</Form.Label>
+        <Form.Label htmlFor="orgCode">Organization Code</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-orgCodee"}
           id="orgCode"
@@ -57,7 +57,7 @@ function UCSBOrganizationForm({
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="orgTranslationShort">
-          orgTranslationShort
+          Short Organization Translation
         </Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-orgTranslationShort"}
@@ -70,6 +70,43 @@ function UCSBOrganizationForm({
         />
         <Form.Control.Feedback type="invalid">
           {errors.orgTranslationShort?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="orgTranslation">
+          Organization Translation
+        </Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-orgTranslation"}
+          id="orgTranslation"
+          type="text"
+          isInvalid={Boolean(errors.orgTranslation)}
+          {...register("orgTranslation", {
+            required: "Organization Translation is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.orgTranslation?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="inactive">Inactive Status</Form.Label>
+        <Form.Select
+          data-testid={testIdPrefix + "-inactive"}
+          id="inactive"
+          isInvalid={Boolean(errors.inactive)}
+          {...register("inactive", {
+            required: "Inactive status is required.",
+          })}
+        >
+          <option value="">Select Inactive Status</option>
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">
+          {errors.inactive?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
