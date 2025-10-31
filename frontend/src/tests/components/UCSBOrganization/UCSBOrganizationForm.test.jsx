@@ -61,8 +61,8 @@ describe("UCSBOrganizationForm tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
-    expect(screen.getByText(`Id`)).toBeInTheDocument();
+    expect(await screen.findByTestId(`${testId}-orgCode`)).toBeInTheDocument();
+    expect(screen.getByText(`Organization Code`)).toBeInTheDocument();
   });
 
   test("that navigate(-1) is called when Cancel is clicked", async () => {
@@ -94,19 +94,17 @@ describe("UCSBOrganizationForm tests", () => {
     const submitButton = screen.getByText(/Create/);
     fireEvent.click(submitButton);
 
-    await screen.findByText(/Organization Code is required./);
-    expect(
-      screen.getByText(/Short Organization Translation is required./),
-    ).toBeInTheDocument();
+    await screen.findByText(/Short Organization Translation is required./);
     expect(
       screen.getByText(/^Organization Translation is required./),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Inactive status is required./),
-    ).toBeInTheDocument();
 
-    const orgCodeInput = screen.getByTestId(`${testId}-orgCode`);
-    fireEvent.change(orgCodeInput, { target: { value: "a".repeat(31) } });
+    const orgTranslationShortInput = screen.getByTestId(
+      `${testId}-orgTranslationShort`,
+    );
+    fireEvent.change(orgTranslationShortInput, {
+      target: { value: "a".repeat(31) },
+    });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
