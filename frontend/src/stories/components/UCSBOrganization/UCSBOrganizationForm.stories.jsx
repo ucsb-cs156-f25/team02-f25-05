@@ -8,7 +8,7 @@ export default {
 };
 
 const Template = (args) => {
-  return <UCSBOrganizationForm{...args} />;
+  return <UCSBOrganizationForm {...args} />;
 };
 
 export const Create = Template.bind({});
