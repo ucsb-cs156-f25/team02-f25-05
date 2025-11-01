@@ -97,6 +97,9 @@ describe("RecommendationRequestForm tests", () => {
       await screen.findByText(/Requester Email is required\./i);
       expect(screen.getByText(/Professor Email is required\./i)).toBeInTheDocument();
       expect(screen.getByText(/Explanation is required\./i)).toBeInTheDocument();
+      expect(screen.getByText(/Date Requested is required\./i)).toBeInTheDocument();
+      expect(screen.getByText(/Date Needed is required\./i)).toBeInTheDocument();
+      expect(screen.getByText(/Done is required\./i)).toBeInTheDocument();
 
 
       // const nameInput = screen.getByTestId(`${testId}-name`);
@@ -108,7 +111,7 @@ describe("RecommendationRequestForm tests", () => {
       fireEvent.click(submitButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/Max length 30 characters/)).toBeInTheDocument();
+        expect(screen.getByText(/Max length 255 characters/)).toBeInTheDocument();
       });
     });
 });
