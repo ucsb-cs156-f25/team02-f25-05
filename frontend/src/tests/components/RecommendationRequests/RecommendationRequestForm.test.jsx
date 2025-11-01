@@ -1,7 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
-import RecommendationRequestForm from "main/components/RecommendationRequests/RecommendationRequestForm";
+import RecommendationRequestForm, {
+  removeZ,
+} from "main/components/RecommendationRequests/RecommendationRequestForm";
 import { recommendationRequestFixtures } from "fixtures/recommendationRequestFixtures";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,6 +29,11 @@ describe("RecommendationRequestForm tests", () => {
     "Done",
   ];
   const testId = "RecommendationRequestForm";
+
+  test("that the removeZ function works properly", async () => {
+    expect(removeZ("ABC")).toBe("ABC");
+    expect(removeZ("ABCZ")).toBe("ABC");
+  });
 
   test("renders correctly with no initialContents", async () => {
     render(
@@ -129,8 +136,6 @@ describe("RecommendationRequestForm tests", () => {
     expect(screen.getByText(/Date Needed is required\./i)).toBeInTheDocument();
     expect(screen.getByText(/Done is required\./i)).toBeInTheDocument();
 
-    //const emailInput = screen.getByTestId(`${testId}-Id`);
-    //fireEvent.change(nameInput, { target: { value: "a".repeat(256) } });
     const emailInput = screen.getByTestId(`${testId}-requesterEmail`);
     fireEvent.change(emailInput, { target: { value: "a".repeat(256) } }); // > 255 to trigger maxLength
 
