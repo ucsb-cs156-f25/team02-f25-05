@@ -63,6 +63,15 @@ describe("RecommendationRequestForm tests", () => {
 
       expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
       expect(screen.getByText(`Id`)).toBeInTheDocument();
+
+      expect(screen.getByLabelText("Id")).toHaveValue(String(recommendationRequestFixtures.oneRequest[0].id));
+      expect(screen.getByLabelText("Requester Email")).toHaveValue(recommendationRequestFixtures.oneRequest[0].requesterEmail);
+      expect(screen.getByLabelText("Professor Email")).toHaveValue(recommendationRequestFixtures.oneRequest[0].professorEmail);
+      expect(screen.getByLabelText("Explanation")).toHaveValue(recommendationRequestFixtures.oneRequest[0].explanation);
+      expect(screen.getByLabelText("Date Requested")).toHaveValue(recommendationRequestFixtures.oneRequest[0].dateRequested);
+      expect(screen.getByLabelText("Date Needed")).toHaveValue(recommendationRequestFixtures.oneRequest[0].dateNeeded);
+      expect(screen.getByLabelText("Done")).toHaveValue(String(recommendationRequestFixtures.oneRequest[0].done));
+      
     });
 
     test("that navigate(-1) is called when Cancel is clicked", async () => {
