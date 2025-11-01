@@ -36,7 +36,7 @@ function RecommendationRequestForm({
       )}
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="requesterEmail">requesterEmail</Form.Label>
+        <Form.Label htmlFor="requesterEmail">Requester Email</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-requesterEmail"}
           id="requesterEmail"
@@ -56,7 +56,7 @@ function RecommendationRequestForm({
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="professorEmail">professorEmail</Form.Label>
+        <Form.Label htmlFor="professorEmail">Professor Email</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-professorEmail"}
           id="professorEmail"
@@ -68,6 +68,70 @@ function RecommendationRequestForm({
         />
         <Form.Control.Feedback type="invalid">
           {errors.professorEmail?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="explanation">Explanation</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-explanation"}
+          id="explanation"
+          type="text"
+          isInvalid={Boolean(errors.explanation)}
+          {...register("explanation", {
+            required: "Explanation is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.explanation?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="dateRequested">Date Requested</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-dateRequested"}
+          id="dateRequested"
+          type="text"
+          isInvalid={Boolean(errors.dateRequested)}
+          {...register("dateRequested", {
+            required: "Date Requested is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.dateRequested?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="dateNeeded">Date Needed</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-dateNeeded"}
+          id="dateNeeded"
+          type="text"
+          isInvalid={Boolean(errors.dateNeeded)}
+          {...register("dateNeeded", {
+            required: "Date Needed is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.dateNeeded?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="done">Done</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-done"}
+          id="done"
+          type="text"
+          isInvalid={Boolean(errors.done)}
+          {...register("done", {
+            required: "Done is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.done?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
