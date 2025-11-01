@@ -2,7 +2,7 @@ import { _fireEvent, render, screen, _waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
 import RecommendationRequestForm from "main/components/RecommendationRequests/RecommendationRequestForm";
-import { _recommendationRequestFixtures } from "fixtures/recommendationRequestFixtures";
+import { recommendationRequestFixtures } from "fixtures/recommendationRequestFixtures";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -26,7 +26,7 @@ describe("RecommendationRequestForm tests", () => {
     "Date Needed",
     "Done",
   ];
-  const testId = "RestaurantForm";
+  const testId = "RecommendationRequestForm";
 
   test("renders correctly with no initialContents", async () => {
     render(
@@ -45,25 +45,25 @@ describe("RecommendationRequestForm tests", () => {
     });
   });
 
-  //   test("renders correctly when passing in initialContents", async () => {
-  //     render(
-  //       <QueryClientProvider client={queryClient}>
-  //         <Router>
-  //           <RestaurantForm initialContents={restaurantFixtures.oneRestaurant} />
-  //         </Router>
-  //       </QueryClientProvider>,
-  //     );
+    test("renders correctly when passing in initialContents", async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <RecommendationRequestForm initialContents={recommendationRequestFixtures.oneRequest} />
+          </Router>
+        </QueryClientProvider>,
+      );
 
-  //     expect(await screen.findByText(/Create/)).toBeInTheDocument();
+      expect(await screen.findByText(/Create/)).toBeInTheDocument();
 
-  //     expectedHeaders.forEach((headerText) => {
-  //       const header = screen.getByText(headerText);
-  //       expect(header).toBeInTheDocument();
-  //     });
+      expectedHeaders.forEach((headerText) => {
+        const header = screen.getByText(headerText);
+        expect(header).toBeInTheDocument();
+      });
 
-  //     expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
-  //     expect(screen.getByText(`Id`)).toBeInTheDocument();
-  //   });
+      expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
+      expect(screen.getByText(`Id`)).toBeInTheDocument();
+    });
 
   //   test("that navigate(-1) is called when Cancel is clicked", async () => {
   //     render(
