@@ -1,4 +1,4 @@
-import { _fireEvent, render, screen, _waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
 import RecommendationRequestForm from "main/components/RecommendationRequests/RecommendationRequestForm";
@@ -49,7 +49,7 @@ describe("RecommendationRequestForm tests", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <Router>
-            <RecommendationRequestForm initialContents={recommendationRequestFixtures.oneRequest} />
+            <RecommendationRequestForm initialContents={recommendationRequestFixtures.oneRequest[0]} />
           </Router>
         </QueryClientProvider>,
       );
@@ -65,44 +65,50 @@ describe("RecommendationRequestForm tests", () => {
       expect(screen.getByText(`Id`)).toBeInTheDocument();
     });
 
-  //   test("that navigate(-1) is called when Cancel is clicked", async () => {
-  //     render(
-  //       <QueryClientProvider client={queryClient}>
-  //         <Router>
-  //           <RestaurantForm />
-  //         </Router>
-  //       </QueryClientProvider>,
-  //     );
-  //     expect(await screen.findByTestId(`${testId}-cancel`)).toBeInTheDocument();
-  //     const cancelButton = screen.getByTestId(`${testId}-cancel`);
+    test("that navigate(-1) is called when Cancel is clicked", async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <RecommendationRequestForm />
+          </Router>
+        </QueryClientProvider>,
+      );
+      expect(await screen.findByTestId(`${testId}-cancel`)).toBeInTheDocument();
+      const cancelButton = screen.getByTestId(`${testId}-cancel`);
 
-  //     fireEvent.click(cancelButton);
+      fireEvent.click(cancelButton);
 
-  //     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
-  //   });
+      await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
+    });
 
-  //   test("that the correct validations are performed", async () => {
-  //     render(
-  //       <QueryClientProvider client={queryClient}>
-  //         <Router>
-  //           <RestaurantForm />
-  //         </Router>
-  //       </QueryClientProvider>,
-  //     );
+    test("that the correct validations are performed", async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <RecommendationRequestForm />
+          </Router>
+        </QueryClientProvider>,
+      );
 
-  //     expect(await screen.findByText(/Create/)).toBeInTheDocument();
-  //     const submitButton = screen.getByText(/Create/);
-  //     fireEvent.click(submitButton);
+      expect(await screen.findByText(/Create/)).toBeInTheDocument();
+      const submitButton = screen.getByText(/Create/);
+      fireEvent.click(submitButton);
 
-  //     await screen.findByText(/Name is required/);
-  //     expect(screen.getByText(/Description is required/)).toBeInTheDocument();
+      await screen.findByText(/Requester Email is required\./i);
+      expect(screen.getByText(/Professor Email is required\./i)).toBeInTheDocument();
+      expect(screen.getByText(/Explanation is required\./i)).toBeInTheDocument();
 
-  //     const nameInput = screen.getByTestId(`${testId}-name`);
-  //     fireEvent.change(nameInput, { target: { value: "a".repeat(31) } });
-  //     fireEvent.click(submitButton);
 
-  //     await waitFor(() => {
-  //       expect(screen.getByText(/Max length 30 characters/)).toBeInTheDocument();
-  //     });
-  //   });
+      // const nameInput = screen.getByTestId(`${testId}-name`);
+      // fireEvent.change(nameInput, { target: { value: "a".repeat(31) } });
+      const emailInput = screen.getByTestId(`${testId}-requesterEmail`);
+      fireEvent.change(emailInput, { target: { value: "a".repeat(256) } }); // > 255 to trigger maxLength
+
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/Max length 30 characters/)).toBeInTheDocument();
+      });
+    });
 });
