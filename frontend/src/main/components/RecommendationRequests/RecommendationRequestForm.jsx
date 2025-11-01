@@ -117,7 +117,7 @@ function RecommendationRequestForm({
     </Form.Group> */}
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="dateRequested">Date Requested </Form.Label>
+        <Form.Label htmlFor="dateRequested">Date Requested</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-dateRequested"}
           id="dateRequested"
@@ -150,7 +150,7 @@ function RecommendationRequestForm({
       </Form.Group> */}
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="dateNeeded">Date Needed </Form.Label>
+        <Form.Label htmlFor="dateNeeded">Date Needed</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-dateNeeded"}
           id="dateNeeded"
