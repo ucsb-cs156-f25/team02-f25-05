@@ -2,17 +2,14 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-
-
 function RecommendationRequestForm({
   initialContents,
   submitAction,
   buttonLabel = "Create",
 }) {
-
-    function removeZ(myString) {
-        return myString.replace("Z", "");
-    }
+  function removeZ(myString) {
+    return myString.replace("Z", "");
+  }
   const defaultValues = initialContents
     ? {
         ...initialContents,
@@ -21,13 +18,11 @@ function RecommendationRequestForm({
       }
     : {};
 
-  // Stryker disable all
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({ defaultValues });
-  // Stryker restore all
 
   const navigate = useNavigate();
   const testIdPrefix = "RecommendationRequestForm";
@@ -36,9 +31,6 @@ function RecommendationRequestForm({
   const isodate_regex =
     /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
   // Stryker restore Regex
-
-  // Stryker disable next-line all
-  // const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
   return (
     <Form onSubmit={handleSubmit(submitAction)}>
