@@ -1,12 +1,39 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
-import RecommendationRequestForm, {
-  removeZ,
-} from "main/components/RecommendationRequests/RecommendationRequestForm";
 import { recommendationRequestFixtures } from "fixtures/recommendationRequestFixtures";
+import RecommendationRequestForm from "main/components/RecommendationRequests/RecommendationRequestForm";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const qc = new QueryClient();
+
+function renderForm(initialContents) {
+  render(
+    <QueryClientProvider client={qc}>
+      <Router>
+        <RecommendationRequestForm initialContents={initialContents} />
+      </Router>
+    </QueryClientProvider>
+  );
+}
+
+
+test("normalizes dateRequested that ends with Z to include seconds", () => {
+  renderForm({
+    id: 1,
+    requesterEmail: "a@x.com",
+    professorEmail: "p@x.com",
+    explanation: "e",
+    dateRequested: "2025-10-10T12:00Z",
+    dateNeeded:    "2025-11-12T10:00Z",
+    done: true,
+  });
+
+
+  expect(screen.getByLabelText("Date Requested")).toHaveValue("2025-10-10T12:00");
+  expect(screen.getByLabelText("Date Needed")).toHaveValue("2025-11-12T10:00");
+});
 
 const mockedNavigate = vi.fn();
 vi.mock("react-router", async () => {
@@ -29,11 +56,6 @@ describe("RecommendationRequestForm tests", () => {
     "Done",
   ];
   const testId = "RecommendationRequestForm";
-
-  test("that the removeZ function works properly", async () => {
-    expect(removeZ("ABC")).toBe("ABC");
-    expect(removeZ("ABCZ")).toBe("ABC");
-  });
 
   test("renders correctly with no initialContents", async () => {
     render(

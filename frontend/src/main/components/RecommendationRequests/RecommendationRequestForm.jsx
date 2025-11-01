@@ -2,15 +2,17 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-export function removeZ(myString) {
-  return myString.replace("Z", "");
-}
+
 
 function RecommendationRequestForm({
   initialContents,
   submitAction,
   buttonLabel = "Create",
 }) {
+
+    function removeZ(myString) {
+        return myString.replace("Z", "");
+    }
   const defaultValues = initialContents
     ? {
         ...initialContents,
@@ -36,7 +38,7 @@ function RecommendationRequestForm({
   // Stryker restore Regex
 
   // Stryker disable next-line all
-  const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
+  // const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
   return (
     <Form onSubmit={handleSubmit(submitAction)}>
