@@ -22,7 +22,7 @@ const ucsbOrganizationFixtures = {
       orgCode: "OSLI",
       orgTranslationShort: "STUDENT LIFE",
       orgTranslation: "OFFICE OF STUDENT LIFE",
-      inactive: true,
+      inactive: false,
     },
   ],
 };
