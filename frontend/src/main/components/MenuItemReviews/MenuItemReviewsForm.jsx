@@ -40,24 +40,24 @@ function MenuItemReviewsForm({
         </Form.Group>
       )}
 
-	  <Form.Group className="mb-3">
-        <Form.Label htmlFor="itemId">itemId</Form.Label>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="itemId">Item Id</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-itemId"}
           id="itemId"
           type="text"
-          isInvalid={Boolean(errors.reviewerEmail)}
+          isInvalid={Boolean(errors.itemId)}
           {...register("itemId", {
             required: "itemId is required.",
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.reviewerEmail?.message}
+          {errors.itemId?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="reviewerEmail">reviewerEmail</Form.Label>
+        <Form.Label htmlFor="reviewerEmail">Reviewer Email</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-reviewerEmail"}
           id="reviewerEmail"
@@ -77,23 +77,22 @@ function MenuItemReviewsForm({
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="stars">stars</Form.Label>
+        <Form.Label htmlFor="stars">Stars</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-stars"}
           id="stars"
           type="text"
-          isInvalid={Boolean(errors.reviewerEmail)}
+          isInvalid={Boolean(errors.stars)}
           {...register("stars", {
             required: "stars is required.",
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.reviewerEmail?.message}
+          {errors.stars?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
-	  
-	  <Form.Group className="mb-3">
+      <Form.Group className="mb-3">
         <Form.Label htmlFor="dateReviewed">Date (iso format)</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-dateReviewed"}
@@ -110,9 +109,8 @@ function MenuItemReviewsForm({
         </Form.Control.Feedback>
       </Form.Group>
 
-
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="comments">comments</Form.Label>
+        <Form.Label htmlFor="comments">Comments</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-comments"}
           id="comments"
@@ -123,7 +121,7 @@ function MenuItemReviewsForm({
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.Comments?.message}
+          {errors.comments?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
