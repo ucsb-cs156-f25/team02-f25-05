@@ -8,7 +8,6 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-
 describe("RecommendationRequestIndexPage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
@@ -49,4 +48,3 @@ describe("RecommendationRequestIndexPage tests", () => {
     expect(screen.getByText("Edit")).toBeInTheDocument();
   });
 });
-

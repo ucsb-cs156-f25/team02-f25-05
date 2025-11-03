@@ -1,4 +1,3 @@
-
 import { render, screen } from "@testing-library/react";
 import RecommendationRequestEditPage from "main/pages/RecommendationRequest/RecommendationRequestEditPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -46,4 +45,3 @@ describe("RecommendationRequestEditPage tests", () => {
     ).toBeInTheDocument();
   });
 });
-
