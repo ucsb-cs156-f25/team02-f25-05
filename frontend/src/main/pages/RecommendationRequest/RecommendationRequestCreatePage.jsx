@@ -5,7 +5,6 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
 export default function RecommendationRequestCreatePage({ storybook = false }) {
-  
   const addZ = (s) => `${s}Z`;
 
   const objectToAxiosParams = (recommendationRequest) => ({
@@ -17,7 +16,7 @@ export default function RecommendationRequestCreatePage({ storybook = false }) {
       explanation: recommendationRequest.explanation,
       dateRequested: addZ(recommendationRequest.dateRequested),
       dateNeeded: addZ(recommendationRequest.dateNeeded),
-      done: recommendationRequest.done
+      done: recommendationRequest.done,
     },
   });
 
@@ -41,7 +40,7 @@ export default function RecommendationRequestCreatePage({ storybook = false }) {
   };
 
   if (isSuccess && !storybook) {
-    return <Navigate to="/recommendationRequest" />;
+    return <Navigate to="/RecommendationRequest" />;
   }
 
   return (
