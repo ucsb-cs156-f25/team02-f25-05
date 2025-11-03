@@ -28,7 +28,6 @@ function UCSBOrganizationForm({
           id="orgCode"
           type="text"
           {...register("orgCode")}
-          value={initialContents?.orgCode}
           disabled={initialContents}
         />
       </Form.Group>
@@ -57,6 +56,7 @@ function UCSBOrganizationForm({
           Organization Translation
         </Form.Label>
         <Form.Control
+          data-testid={testIdPrefix + "-orgTranslation"}
           id="orgTranslation"
           type="text"
           isInvalid={Boolean(errors.orgTranslation)}
@@ -71,13 +71,19 @@ function UCSBOrganizationForm({
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="inactive">Inactive Status</Form.Label>
-        <Form.Select id="inactive" {...register("inactive", {})}>
+        <Form.Select
+          data-testid={testIdPrefix + "-inactive"}
+          id="inactive"
+          {...register("inactive", {})}
+        >
           <option value="true">True</option>
           <option value="false">False</option>
         </Form.Select>
       </Form.Group>
 
-      <Button type="submit">{buttonLabel}</Button>
+      <Button type="submit" data-testid={testIdPrefix + "-submit"}>
+        {buttonLabel}
+      </Button>
       <Button
         variant="Secondary"
         onClick={() => navigate(-1)}
