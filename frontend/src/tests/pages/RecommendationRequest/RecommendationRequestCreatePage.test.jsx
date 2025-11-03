@@ -46,7 +46,7 @@ describe("RecommendationRequestCreatePage tests", () => {
   });
 
   const queryClient = new QueryClient();
-  test.only("renders without crashing", async () => {
+  test("renders without crashing", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -60,7 +60,7 @@ describe("RecommendationRequestCreatePage tests", () => {
     });
   });
 
-  test.only("on submit, makes request to backend, and redirects to /recommendationRequests", async () => {
+  test("on submit, makes request to backend, and redirects to /recommendationRequests", async () => {
     const queryClient = new QueryClient();
     const recommendationRequest = {
       id: 1,
