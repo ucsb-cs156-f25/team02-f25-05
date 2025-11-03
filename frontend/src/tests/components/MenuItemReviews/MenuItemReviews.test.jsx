@@ -102,8 +102,21 @@ describe("MenuItemReviewsForm tests", () => {
     expect(screen.getByText(/DateReviewed is required/)).toBeInTheDocument();
     expect(screen.getByText(/Comments is required/)).toBeInTheDocument();
 
+    const itemIdInput = screen.getByTestId(`${testId}-itemId`);
+    fireEvent.change(itemIdInput, { target: { value: "123" } });
+
     const reviewerEmailInput = screen.getByTestId(`${testId}-reviewerEmail`);
     fireEvent.change(reviewerEmailInput, { target: { value: "a".repeat(31) } });
+
+    const starsInput = screen.getByTestId(`${testId}-stars`);
+    fireEvent.change(starsInput, { target: { value: 5 } });
+
+    const dateReviewedInput = screen.getByTestId(`${testId}-dateReviewed`);
+    fireEvent.change(dateReviewedInput, { target: { value: "2025-11-02" } });
+
+    const commentsInput = screen.getByTestId(`${testId}-comments`);
+    fireEvent.change(commentsInput, { target: { value: "b".repeat(31) } });
+
     fireEvent.click(submitButton);
 
     await waitFor(() => {

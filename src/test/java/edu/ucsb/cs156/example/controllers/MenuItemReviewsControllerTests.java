@@ -198,7 +198,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase {
     MvcResult response =
         mockMvc
             .perform(
-                post("/api/menuitemreviews/post?reviewerEmail=test@example.com&stars=5&dateReviewed=2023-01-01T12:00:00&comments=Excellent")
+                post("/api/menuitemreviews/post?itemId=27&reviewerEmail=test@example.com&stars=5&dateReviewed=2023-01-01T12:00:00&comments=Excellent")
                     .with(csrf()))
             .andExpect(status().isOk())
             .andReturn();
