@@ -168,17 +168,19 @@ function RecommendationRequestForm({
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="done">Done</Form.Label>
-        <Form.Control
-          data-testid={testIdPrefix + "-done"}
+        <Form.Select
           id="done"
-          type="text"
+          {...register("done", { required: true })}
           isInvalid={Boolean(errors.done)}
-          {...register("done", {
-            required: "Done is required.",
-          })}
-        />
+          data-testid={`${testIdPrefix}-done`}
+        >
+          <option value="">Select...</option>
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </Form.Select>
+
         <Form.Control.Feedback type="invalid">
-          {errors.done?.message}
+          {errors.done && "Done is required."}
         </Form.Control.Feedback>
       </Form.Group>
 
