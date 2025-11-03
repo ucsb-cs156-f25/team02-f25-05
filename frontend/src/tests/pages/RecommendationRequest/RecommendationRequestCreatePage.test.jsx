@@ -149,11 +149,6 @@ describe("RecommendationRequestCreatePage tests", () => {
       }),
     );
 
-    // expect(axiosMock.history.post[0].params).toEqual({
-    //   requesterEmail: "student2@ucsb.edu",
-    //   professorEmail: "professor2@ucsb.edu",
-    //   explanation: "This is an explanation",
-    // });
 
     // assert - check that the toast was called with the expected message
     expect(mockToast).toHaveBeenCalledWith(
