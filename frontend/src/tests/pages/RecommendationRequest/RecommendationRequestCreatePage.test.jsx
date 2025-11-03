@@ -149,7 +149,6 @@ describe("RecommendationRequestCreatePage tests", () => {
       }),
     );
 
-
     // assert - check that the toast was called with the expected message
     expect(mockToast).toHaveBeenCalledWith(
       "New Recommendation Request Created - id: 1 requesterEmail: student2@ucsb.edu",
