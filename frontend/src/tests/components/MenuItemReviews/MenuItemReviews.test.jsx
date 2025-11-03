@@ -116,6 +116,10 @@ describe("MenuItemReviewsForm tests", () => {
 
     const commentsInput = screen.getByTestId(`${testId}-comments`);
     fireEvent.change(commentsInput, { target: { value: "b".repeat(31) } });
+	
+	const submitButtonById = screen.getByTestId(`${testId}-submit`);
+	fireEvent.click(submitButtonById);
+
 
     fireEvent.click(submitButton);
 
