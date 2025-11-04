@@ -19,7 +19,7 @@ const menuItemReviewsFixtures = {
     {
       id: 2,
       itemId: 6,
-      reviewerEmail: "test1smith@example.com",
+      reviewerEmail: "test1@example.com",
       stars: 3,
       dateReviewed: "2025-04-03T18:30:00",
       comments: "alright",
