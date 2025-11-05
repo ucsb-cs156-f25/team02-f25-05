@@ -100,4 +100,3 @@ describe("ArticlesForm tests", () => {
     expect(screen.getByText(/Date Added is required/)).toBeInTheDocument();
   });
 });
-
