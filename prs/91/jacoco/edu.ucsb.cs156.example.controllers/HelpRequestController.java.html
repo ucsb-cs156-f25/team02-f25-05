@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** This is a REST controller for HelpRequest */
-@Tag(name = &quot;HelpRequests&quot;)
-@RequestMapping(&quot;/api/helprequests&quot;)
+@Tag(name = &quot;HelpRequest&quot;)
+@RequestMapping(&quot;/api/HelpRequest&quot;)
 @RestController
 <span class="fc" id="L29">@Slf4j</span>
 <span class="fc" id="L30">public class HelpRequestController extends ApiController {</span>
@@ -32,25 +32,25 @@ import org.springframework.web.bind.annotation.RestController;
   @Autowired HelpRequestRepository helpRequestRepository;
 
   /**
-   * List all HelpRequests
+   * List all Help Requests
    *
    * @return an iterable of HelpRequest
    */
-  @Operation(summary = &quot;List all ucsb help requests&quot;)
+  @Operation(summary = &quot;List all Help Requests&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
   @GetMapping(&quot;/all&quot;)
   public Iterable&lt;HelpRequest&gt; allHelpRequests() {
-<span class="fc" id="L43">    Iterable&lt;HelpRequest&gt; helprequests = helpRequestRepository.findAll();</span>
-<span class="fc" id="L44">    return helprequests;</span>
+<span class="fc" id="L43">    Iterable&lt;HelpRequest&gt; helpRequests = helpRequestRepository.findAll();</span>
+<span class="fc" id="L44">    return helpRequests;</span>
   }
 
   /**
-   * Get a single helprequest by id
+   * Get a Help Request by id
    *
-   * @param id the id of the date
-   * @return a UCSBDate
+   * @param id the id of the Help Request
+   * @return a HelpRequest
    */
-  @Operation(summary = &quot;Get a single helprequest&quot;)
+  @Operation(summary = &quot;Get a single Help Request&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
   @GetMapping(&quot;&quot;)
   public HelpRequest getById(@Parameter(name = &quot;id&quot;) @RequestParam Long id) {
@@ -63,20 +63,20 @@ import org.springframework.web.bind.annotation.RestController;
   }
 
   /**
-   * Create a new helprequest
+   * Create a new Help Request
    *
-   * @param requesterEmail
-   * @param teamId
-   * @param tableOrBreakoutRoom
-   * @param requestTime
-   * @param explanation
-   * @param solved
-   * @return the newly created HelpRequest
+   * @param requesterEmail email of requesting student
+   * @param teamId team id of requesting student
+   * @param tableOrBreakoutRoom table/breakout room number of requesting student
+   * @param requestTime the date and time of request submission in local time
+   * @param explanation reason/explanation for request
+   * @param solved true iff request has been solved
+   * @return the saved HelpRequest
    */
-  @Operation(summary = &quot;Create a new helprequest&quot;)
+  @Operation(summary = &quot;Create a new Help Request&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
   @PostMapping(&quot;/post&quot;)
-  public HelpRequest postHelpRequests(
+  public HelpRequest postHelpRequest(
       @Parameter(name = &quot;requesterEmail&quot;) @RequestParam String requesterEmail,
       @Parameter(name = &quot;teamId&quot;) @RequestParam String teamId,
       @Parameter(name = &quot;tableOrBreakoutRoom&quot;) @RequestParam String tableOrBreakoutRoom,
@@ -91,61 +91,68 @@ import org.springframework.web.bind.annotation.RestController;
           LocalDateTime requestTime)
       throws JsonProcessingException {
 
-    // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    // See: https://www.baeldung.com/spring-date-parameters
+<span class="fc" id="L94">    log.info(&quot;requestTime={}&quot;, requestTime);</span>
 
-<span class="fc" id="L97">    log.info(&quot;requestTime={}&quot;, requestTime);</span>
+<span class="fc" id="L96">    HelpRequest helpRequest = new HelpRequest();</span>
+<span class="fc" id="L97">    helpRequest.setRequesterEmail(requesterEmail);</span>
+<span class="fc" id="L98">    helpRequest.setTeamId(teamId);</span>
+<span class="fc" id="L99">    helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);</span>
+<span class="fc" id="L100">    helpRequest.setRequestTime(requestTime);</span>
+<span class="fc" id="L101">    helpRequest.setExplanation(explanation);</span>
+<span class="fc" id="L102">    helpRequest.setSolved(solved);</span>
 
-<span class="fc" id="L99">    HelpRequest helpRequest = new HelpRequest();</span>
-<span class="fc" id="L100">    helpRequest.setRequesterEmail(requesterEmail);</span>
-<span class="fc" id="L101">    helpRequest.setTeamId(teamId);</span>
-<span class="fc" id="L102">    helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);</span>
-<span class="fc" id="L103">    helpRequest.setRequestTime(requestTime);</span>
-<span class="fc" id="L104">    helpRequest.setExplanation(explanation);</span>
-<span class="fc" id="L105">    helpRequest.setSolved(solved);</span>
-<span class="fc" id="L106">    HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);</span>
+<span class="fc" id="L104">    HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);</span>
 
-<span class="fc" id="L108">    return savedHelpRequest;</span>
+<span class="fc" id="L106">    return savedHelpRequest;</span>
   }
 
   /**
-   * Update a single helprequest
+   * Delete a Help Request
    *
-   * @param id id of the helprequest to update
-   * @param incoming the new helprequest data
-   * @return the updated helprequest object
+   * @param id the id of the Help Request to delete
+   * @return a message indicating the Help Request was deleted
    */
-  @Operation(summary = &quot;Update a single helprequest&quot;)
-  @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
-  @PutMapping
-  public HelpRequest updateHelpRequest(
-      @Parameter(name = &quot;id&quot;) @RequestParam Long id, @RequestBody @Valid HelpRequest incoming) {
-
-<span class="fc bfc" id="L124" title="All 2 branches covered.">    if (helpRequestRepository.findById(id).isEmpty()) {</span>
-<span class="fc" id="L125">      throw new EntityNotFoundException(HelpRequest.class, id);</span>
-    }
-
-<span class="fc" id="L128">    helpRequestRepository.save(incoming);</span>
-<span class="fc" id="L129">    return incoming;</span>
-  }
-
-  /**
-   * Delete a HelpRequest
-   *
-   * @param id the id of the helpRequest to delete
-   * @return a message indicating the helpRequest was deleted
-   */
-  @Operation(summary = &quot;Delete a helpRequest&quot;)
+  @Operation(summary = &quot;Delete a Help Request&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
   @DeleteMapping(&quot;&quot;)
   public Object deleteHelpRequest(@Parameter(name = &quot;id&quot;) @RequestParam Long id) {
-<span class="fc" id="L142">    HelpRequest helpRequest =</span>
+<span class="fc" id="L119">    HelpRequest helpRequest =</span>
         helpRequestRepository
-<span class="fc" id="L144">            .findById(id)</span>
-<span class="fc" id="L145">            .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
+<span class="fc" id="L121">            .findById(id)</span>
+<span class="fc" id="L122">            .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
 
-<span class="fc" id="L147">    helpRequestRepository.delete(helpRequest);</span>
-<span class="fc" id="L148">    return genericMessage(&quot;HelpRequest with id %s deleted&quot;.formatted(id));</span>
+<span class="fc" id="L124">    helpRequestRepository.delete(helpRequest);</span>
+<span class="fc" id="L125">    return genericMessage(&quot;HelpRequest with id %s deleted&quot;.formatted(id));</span>
+  }
+
+  /**
+   * Update a single Help Request
+   *
+   * @param id id of the Help Request to update
+   * @param incoming the new Help Request
+   * @return the updated Help Request object
+   */
+  @Operation(summary = &quot;Update a single Help Request&quot;)
+  @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+  @PutMapping(&quot;&quot;)
+  public HelpRequest updateHelpRequest(
+      @Parameter(name = &quot;id&quot;) @RequestParam Long id, @RequestBody @Valid HelpRequest incoming) {
+
+<span class="fc" id="L141">    HelpRequest helpRequest =</span>
+        helpRequestRepository
+<span class="fc" id="L143">            .findById(id)</span>
+<span class="fc" id="L144">            .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
+
+<span class="fc" id="L146">    helpRequest.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L147">    helpRequest.setTeamId(incoming.getTeamId());</span>
+<span class="fc" id="L148">    helpRequest.setTableOrBreakoutRoom(incoming.getTableOrBreakoutRoom());</span>
+<span class="fc" id="L149">    helpRequest.setRequestTime(incoming.getRequestTime());</span>
+<span class="fc" id="L150">    helpRequest.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L151">    helpRequest.setSolved(incoming.getSolved());</span>
+
+<span class="fc" id="L153">    helpRequestRepository.save(helpRequest);</span>
+
+<span class="fc" id="L155">    return helpRequest;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
