@@ -62,6 +62,7 @@ describe("ArticlesForm tests", () => {
 
     expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
     expect(screen.getByText(`Id`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-id`)).toHaveValue("1");
   });
 
   test("that navigate(-1) is called when Cancel is clicked", async () => {
@@ -98,5 +99,54 @@ describe("ArticlesForm tests", () => {
     expect(screen.getByText(/Explanation is required/)).toBeInTheDocument();
     expect(screen.getByText(/Email is required/)).toBeInTheDocument();
     expect(screen.getByText(/Date Added is required/)).toBeInTheDocument();
+  });
+
+  test("No Error messages on good input", async () => {
+    const mockSubmitAction = vi.fn();
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <ArticlesForm submitAction={mockSubmitAction} />
+        </Router>
+      </QueryClientProvider>,
+    );
+    await screen.findByTestId(`${testId}-title`);
+
+    const titleField = screen.getByTestId(`${testId}-title`);
+    const urlField = screen.getByTestId(`${testId}-url`);
+    const explanationField = screen.getByTestId(`${testId}-explanation`);
+    const emailField = screen.getByTestId(`${testId}-email`);
+    const dateAddedField = screen.getByTestId(`${testId}-dateAdded`);
+    const submitButton = screen.getByTestId(`${testId}-submit`);
+
+    fireEvent.change(titleField, {
+      target: { value: "Test Article" },
+    });
+    fireEvent.change(urlField, {
+      target: { value: "https://test.com" },
+    });
+    fireEvent.change(explanationField, {
+      target: { value: "Test explanation" },
+    });
+    fireEvent.change(emailField, {
+      target: { value: "test@test.com" },
+    });
+    fireEvent.change(dateAddedField, {
+      target: { value: "2022-01-02T12:00" },
+    });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
+
+    expect(screen.queryByText(/Title is required/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/URL is required/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Explanation is required/),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Email is required/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Date Added is required/),
+    ).not.toBeInTheDocument();
   });
 });
