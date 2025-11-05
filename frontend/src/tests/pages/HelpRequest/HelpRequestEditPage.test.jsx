@@ -68,7 +68,7 @@ describe("HelpRequestEditPage tests", () => {
         </QueryClientProvider>,
       );
       await screen.findByText("Edit HelpRequest");
-      expect(screen.queryByTestId("HelpRequest-requesterEmail")).not.toBeInTheDocument(); //??????
+      expect(screen.queryByTestId("HelpRequestForm-requesterEmail")).not.toBeInTheDocument(); //??????
       restoreConsole();
     });
   });
