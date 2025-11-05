@@ -1,0 +1,49 @@
+import React from "react";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import { ucsbDiningCommonsMenuItemFixtures } from "fixtures/ucsbDiningCommonsMenuItemFixtures";
+import { http, HttpResponse } from "msw";
+
+import UCSBDiningCommonsMenuItemsEditPage from "main/pages/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemsEditPage";
+
+export default {
+  title: "pages/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemsEditPage",
+  component: UCSBDiningCommonsMenuItemsEditPage,
+};
+
+const Template = () => <UCSBDiningCommonsMenuItemsEditPage storybook={true} />;
+
+export const Default = Template.bind({});
+Default.parameters = {
+  msw: [
+    http.get("/api/currentUser", () => {
+      return HttpResponse.json(apiCurrentUserFixtures.userOnly, {
+        status: 200,
+      });
+    }),
+    http.get("/api/systemInfo", () => {
+      return HttpResponse.json(systemInfoFixtures.showingNeither, {
+        status: 200,
+      });
+    }),
+    http.get("/api/ucsbdiningcommonsmenuitems", () => {
+      return HttpResponse.json(
+        ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems,
+        {
+          status: 200,
+        },
+      );
+    }),
+    http.put("/api/ucsbdiningcommonsmenuitems", () => {
+      return HttpResponse.json(
+        {
+          id: 17,
+          diningCommonsCode: "carrillo",
+          name: "Lasagna",
+          station: "Dinner",
+        },
+        { status: 200 },
+      );
+    }),
+  ],
+};
