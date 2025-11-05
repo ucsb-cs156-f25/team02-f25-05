@@ -5,15 +5,15 @@ import { useBackendMutation } from "main/utils/useBackend";
 import {
   cellToAxiosParamsDelete,
   onDeleteSuccess,
-} from "main/utils/UCSBDateUtils";
+} from "main/utils/helpRequestUtils";
 import { useNavigate } from "react-router";
 import { hasRole } from "main/utils/useCurrentUser";
 
-export default function HelpRequestTable({ dates, currentUser }) {
+export default function HelpRequestTable({ helpRequests = [], currentUser }) {
   const navigate = useNavigate();
 
   const editCallback = (cell) => {
-    navigate(`/ucsbdates/edit/${cell.row.original.id}`);
+    navigate(`/helprequests/edit/${cell.row.original.id}`);
   };
 
   // Stryker disable all : hard to test for query caching
@@ -49,5 +49,5 @@ export default function HelpRequestTable({ dates, currentUser }) {
     );
   }
 
-  return <OurTable data={dates} columns={columns} testid={"HelpRequestTable"} />;
+  return <OurTable data={helpRequests} columns={columns} testid={"HelpRequestTable"} />;
 }
