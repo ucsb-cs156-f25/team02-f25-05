@@ -1,11 +1,10 @@
 import React from "react";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { restaurantFixtures } from "fixtures/restaurantFixtures";
+import { helpRequestFixtures } from "fixtures/helpRequestFixtures";
 import { http, HttpResponse } from "msw";
 
 import HelpRequestIndexPage from "main/pages/HelpRequest/HelpRequestIndexPage";
-import { helpRequestFixtures } from "fixtures/helpRequestFixtures";
 
 export default {
   title: "pages/HelpRequest/HelpRequestIndexPage",
