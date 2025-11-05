@@ -179,7 +179,7 @@ function App() {
       )}
       
        // organization 
-      {hasRole(currentUser, "ROLE_USER") && (
+	  {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route
             exact
@@ -188,9 +188,10 @@ function App() {
           />
         </>
       )}
-
-
-
+      {hasRole(currentUser, "ROLE_ADMIN") && (
+        <>
+          <Route
+            exact
             path="/ucsborganization/edit/:id"
             element={<UCSBOrganizationEditPage />}
           />
@@ -223,6 +224,8 @@ function App() {
           />
         </>
       )}
+
+	// articles
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/articles" element={<ArticlesIndexPage />} />
