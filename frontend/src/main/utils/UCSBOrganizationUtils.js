@@ -10,7 +10,7 @@ export function cellToAxiosParamsDelete(cell) {
     url: "/api/ucsborganization",
     method: "DELETE",
     params: {
-      orgCode: cell.row.original.orgCode,
+      code: cell.row.original.orgCode,
     },
   };
 }
