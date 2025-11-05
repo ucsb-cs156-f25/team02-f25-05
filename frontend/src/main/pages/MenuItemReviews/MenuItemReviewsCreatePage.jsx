@@ -9,18 +9,16 @@ export default function MenuItemReviewsCreatePage({ storybook = false }) {
     url: "/api/menuitemreviews/post",
     method: "POST",
     params: {
-	  itemId: menuItemReviews.itemId,
+      itemId: menuItemReviews.itemId,
       reviewerEmail: menuItemReviews.reviewerEmail,
       stars: menuItemReviews.stars,
-	  dateReviewed: menuItemReviews.dateReviewed,
-	  comments: menuItemReviews.comments
+      dateReviewed: menuItemReviews.dateReviewed,
+      comments: menuItemReviews.comments,
     },
   });
 
   const onSuccess = (menuItemReviews) => {
-    toast(
-      `New Menu Item Review Created - id: ${menuItemReviews.id}`,
-    );
+    toast(`New Menu Item Review Created - id: ${menuItemReviews.id}`);
   };
 
   const mutation = useBackendMutation(
@@ -49,4 +47,3 @@ export default function MenuItemReviewsCreatePage({ storybook = false }) {
     </BasicLayout>
   );
 }
-

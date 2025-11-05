@@ -49,7 +49,6 @@ function App() {
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <Route exact path="/admin/users" element={<AdminUsersPage />} />
       )}
-      
       // Ucsb dates
       {hasRole(currentUser, "ROLE_USER") && (
         <>
@@ -70,8 +69,7 @@ function App() {
           />
         </>
       )}
-      
-       // restaurants
+      // restaurants
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/restaurants" element={<RestaurantIndexPage />} />
@@ -91,7 +89,6 @@ function App() {
           />
         </>
       )}
-      
       // recommendationRequest
       {hasRole(currentUser, "ROLE_USER") && (
         <>
@@ -116,11 +113,14 @@ function App() {
           />
         </>
       )}
-     
-	  // menuItemReview
-	  {hasRole(currentUser, "ROLE_USER") && (
+      // menuItemReview
+      {hasRole(currentUser, "ROLE_USER") && (
         <>
-          <Route exact path="/menuItemReviews" element={<MenuItemReviewsIndexPage />} />
+          <Route
+            exact
+            path="/menuItemReviews"
+            element={<MenuItemReviewsIndexPage />}
+          />
         </>
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
@@ -137,9 +137,7 @@ function App() {
           />
         </>
       )}
-
-  
-      // dinigcommons 
+      // dinigcommons
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route
@@ -163,8 +161,7 @@ function App() {
           />
         </>
       )}
-      
-       // organization 
+      // organization
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route
@@ -188,8 +185,6 @@ function App() {
           />
         </>
       )}
-      
-      
       //Placeholder
       {hasRole(currentUser, "ROLE_USER") && (
         <>

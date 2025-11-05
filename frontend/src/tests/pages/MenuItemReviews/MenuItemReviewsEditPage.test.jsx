@@ -68,7 +68,9 @@ describe("MenuItemReviewsEditPage tests", () => {
         </QueryClientProvider>,
       );
       await screen.findByText("Edit Menu Item Review");
-      expect(screen.queryByTestId("MenuItemReviewsForm-itemId")).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("MenuItemReviewsForm-itemId"),
+      ).not.toBeInTheDocument();
       restoreConsole();
     });
   });
@@ -84,14 +86,16 @@ describe("MenuItemReviewsEditPage tests", () => {
       axiosMock
         .onGet("/api/systemInfo")
         .reply(200, systemInfoFixtures.showingNeither);
-      axiosMock.onGet("/api/menuitemreviews", { params: { id: 17 } }).reply(200, {
-        id: 17,
-        itemId: 5,
-        reviewerEmail: "test@example.com",
-        stars: 4,
-        dateReviewed: "2025-11-04T12:12:00",
-        comments: "Great item!",
-      });
+      axiosMock
+        .onGet("/api/menuitemreviews", { params: { id: 17 } })
+        .reply(200, {
+          id: 17,
+          itemId: 5,
+          reviewerEmail: "test@example.com",
+          stars: 4,
+          dateReviewed: "2025-11-04T12:12:00",
+          comments: "Great item!",
+        });
       axiosMock.onPut("/api/menuitemreviews").reply(200, {
         id: 17,
         itemId: 5,
@@ -124,20 +128,24 @@ describe("MenuItemReviewsEditPage tests", () => {
 
       const idField = screen.getByTestId("MenuItemReviewsForm-id");
       const itemIdField = screen.getByTestId("MenuItemReviewsForm-itemId");
-      const reviewerEmailField = screen.getByTestId("MenuItemReviewsForm-reviewerEmail");
+      const reviewerEmailField = screen.getByTestId(
+        "MenuItemReviewsForm-reviewerEmail",
+      );
       const starsField = screen.getByTestId("MenuItemReviewsForm-stars");
-      const dateReviewedField = screen.getByTestId("MenuItemReviewsForm-dateReviewed");
+      const dateReviewedField = screen.getByTestId(
+        "MenuItemReviewsForm-dateReviewed",
+      );
       const commentsField = screen.getByTestId("MenuItemReviewsForm-comments");
       const submitButton = screen.getByTestId("MenuItemReviewsForm-submit");
 
       expect(idField).toBeInTheDocument();
-	  expect(idField).toHaveValue("17")
+      expect(idField).toHaveValue("17");
       expect(itemIdField).toHaveValue("5");
       expect(reviewerEmailField).toHaveValue("test@example.com");
       expect(starsField).toHaveValue("4");
       expect(dateReviewedField).toHaveValue("2025-11-04T12:12");
       expect(commentsField).toHaveValue("Great item!");
-		
+
       expect(submitButton).toHaveTextContent("Update");
 
       fireEvent.change(commentsField, { target: { value: "Excellent item!" } });
@@ -150,13 +158,13 @@ describe("MenuItemReviewsEditPage tests", () => {
       expect(axiosMock.history.put.length).toBe(1);
       expect(axiosMock.history.put[0].params).toEqual({ id: 17 });
       expect(axiosMock.history.put[0].data).toBe(
-		  JSON.stringify({
+        JSON.stringify({
           itemId: 5,
           reviewerEmail: "test@example.com",
           stars: 4,
           dateReviewed: "2025-11-04T12:12:00",
           comments: "Excellent item!",
-		}),
+        }),
       );
     });
 
@@ -185,4 +193,3 @@ describe("MenuItemReviewsEditPage tests", () => {
     });
   });
 });
-

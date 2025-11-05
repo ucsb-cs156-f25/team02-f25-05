@@ -89,7 +89,9 @@ describe("MenuItemReviewsCreatePage tests", () => {
     const itemIdInput = screen.getByLabelText("Item Id");
     const reviewerEmailInput = screen.getByLabelText("Reviewer Email");
     const starsInput = screen.getByLabelText("Stars");
-    const dateReviewedInput = screen.getByLabelText("Date Reviewed(iso format)");
+    const dateReviewedInput = screen.getByLabelText(
+      "Date Reviewed(iso format)",
+    );
     const commentsInput = screen.getByLabelText("Comments");
     const createButton = screen.getByText("Create");
 
@@ -115,10 +117,7 @@ describe("MenuItemReviewsCreatePage tests", () => {
       comments: "Excellent taste!",
     });
 
-    expect(mockToast).toBeCalledWith(
-      "New Menu Item Review Created - id: 5",
-    );
+    expect(mockToast).toBeCalledWith("New Menu Item Review Created - id: 5");
     expect(mockNavigate).toBeCalledWith({ to: "/menuitemreviews" });
   });
 });
-

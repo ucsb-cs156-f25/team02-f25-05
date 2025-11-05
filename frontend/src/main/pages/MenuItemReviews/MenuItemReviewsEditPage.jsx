@@ -32,11 +32,11 @@ export default function MenuItemReviewsEditPage({ storybook = false }) {
       id: menuItemReviews.id,
     },
     data: {
-	  itemId: menuItemReviews.itemId,
+      itemId: menuItemReviews.itemId,
       reviewerEmail: menuItemReviews.reviewerEmail,
       stars: menuItemReviews.stars,
-	  dateReviewed: menuItemReviews.dateReviewed,
-	  comments: menuItemReviews.comments
+      dateReviewed: menuItemReviews.dateReviewed,
+      comments: menuItemReviews.comments,
     },
   });
 
@@ -76,4 +76,3 @@ export default function MenuItemReviewsEditPage({ storybook = false }) {
     </BasicLayout>
   );
 }
-
