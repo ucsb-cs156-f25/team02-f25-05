@@ -183,7 +183,7 @@ function App() {
           />
           <Route
             exact
-            path="/ucsbdiningcommonsmenuitems/create"
+            path="/ucsborganization/create"
             element={<UCSBOrganizationCreatePage />}
           />
         </>
