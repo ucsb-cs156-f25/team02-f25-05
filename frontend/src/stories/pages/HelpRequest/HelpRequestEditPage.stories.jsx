@@ -4,7 +4,6 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import { http, HttpResponse } from "msw";
 
 import HelpRequestEditPage from "main/pages/HelpRequest/HelpRequestEditPage";
-import { restaurantFixtures } from "fixtures/restaurantFixtures";
 import { helpRequestFixtures } from "fixtures/helpRequestFixtures";
 
 export default {
