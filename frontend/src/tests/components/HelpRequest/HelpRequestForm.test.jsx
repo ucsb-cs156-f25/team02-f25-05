@@ -28,11 +28,12 @@ describe("HelpRequestForm tests", () => {
   test("renders correctly when passing in a HelpRequest", async () => {
     render(
       <Router>
-        <HelpRequestForm initialContents={helpRequestFixtures.oneHelpRequest} />
+        <HelpRequestForm initialContents={helpRequestFixtures.oneRequest} />
       </Router>,
     );
-    await screen.findByTestId(/HelpRequestForm-teamId/);
-    expect(screen.getByText("Team Id")).toBeInTheDocument();
+    await screen.findByTestId(/HelpRequestForm-id/);
+    expect(screen.getByText("Id")).toBeInTheDocument();
+    expect(screen.getByTestId("HelpRequestForm-id")).toHaveValue("1");
   });
 
   test("Correct Error messsages on bad input", async () => {
