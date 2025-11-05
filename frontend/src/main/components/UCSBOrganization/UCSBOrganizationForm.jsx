@@ -27,9 +27,16 @@ function UCSBOrganizationForm({
           data-testid={testIdPrefix + "-orgCode"}
           id="orgCode"
           type="text"
-          {...register("orgCode")}
+          isInvalid={Boolean(errors.orgCode)}
+          {...register("orgCode", {
+            maxLength: { value: 30, message: "Max length 30 characters" },
+            required: "Organization code is required.",
+          })}
           disabled={initialContents}
         />
+        <Form.Control.Feedback type="invalid">
+          {errors.orgCode?.message}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -42,7 +49,6 @@ function UCSBOrganizationForm({
           type="text"
           isInvalid={Boolean(errors.orgTranslationShort)}
           {...register("orgTranslationShort", {
-            maxLength: { value: 30, message: "Max length 30 characters" },
             required: "Short Organization Translation is required.",
           })}
         />
