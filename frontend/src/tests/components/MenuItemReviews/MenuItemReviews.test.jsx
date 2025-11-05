@@ -23,7 +23,7 @@ describe("MenuItemReviewsForm tests", () => {
     "Item Id",
     "Reviewer Email",
     "Stars",
-    "Date (iso format)",
+    "Date Reviewed(iso format)",
     "Comments",
   ];
 
