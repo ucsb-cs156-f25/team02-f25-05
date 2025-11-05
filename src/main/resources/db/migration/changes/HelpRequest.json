@@ -3,7 +3,7 @@
       {
         "changeSet": {
           "id": "HelpRequest-1",
-          "author": "Brian",
+          "author": "AJP1012",
           "preConditions": [
             {
               "onFail": "MARK_RAN"
@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "helprequests"
+                    "tableName": "HELPREQUEST"
                   }
                 }
               ]
@@ -27,7 +27,7 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "HELPREQUESTS_PK"
+                        "primaryKeyName": "HELPREQUEST_PK"
                       },
                       "name": "ID",
                       "type": "BIGINT"
@@ -35,42 +35,42 @@
                   },
                   {
                     "column": {
-                      "name": "requester_email",
+                      "name": "REQUESTER_EMAIL",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "team_id",
+                      "name": "TEAM_ID",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "table_or_breakout_room",
+                      "name": "TABLE_OR_BREAKOUT_ROOM",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "request_time",
+                      "name": "REQUEST_TIME",
                       "type": "TIMESTAMP"
                     }
                   },
                   {
                     "column": {
-                      "name": "solved",
-                      "type": "BOOLEAN"
+                      "name": "EXPLANATION",
+                      "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "explanation",
-                      "type": "VARCHAR(255)"
+                      "name": "SOLVED",
+                      "type": "BOOLEAN"
                     }
-                  }
+                  }                                                                                   
                 ],
-                "tableName": "helprequests"
+                "tableName": "HELPREQUEST"
               }
             }
           ]

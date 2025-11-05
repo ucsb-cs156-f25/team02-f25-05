@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** This is a REST controller for HelpRequest */
-@Tag(name = "HelpRequests")
-@RequestMapping("/api/helprequests")
+@Tag(name = "HelpRequest")
+@RequestMapping("/api/HelpRequest")
 @RestController
 @Slf4j
 public class HelpRequestController extends ApiController {
@@ -32,25 +32,25 @@ public class HelpRequestController extends ApiController {
   @Autowired HelpRequestRepository helpRequestRepository;
 
   /**
-   * List all HelpRequests
+   * List all Help Requests
    *
    * @return an iterable of HelpRequest
    */
-  @Operation(summary = "List all ucsb help requests")
+  @Operation(summary = "List all Help Requests")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/all")
   public Iterable<HelpRequest> allHelpRequests() {
-    Iterable<HelpRequest> helprequests = helpRequestRepository.findAll();
-    return helprequests;
+    Iterable<HelpRequest> helpRequests = helpRequestRepository.findAll();
+    return helpRequests;
   }
 
   /**
-   * Get a single helprequest by id
+   * Get a Help Request by id
    *
-   * @param id the id of the date
-   * @return a UCSBDate
+   * @param id the id of the Help Request
+   * @return a HelpRequest
    */
-  @Operation(summary = "Get a single helprequest")
+  @Operation(summary = "Get a single Help Request")
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")
   public HelpRequest getById(@Parameter(name = "id") @RequestParam Long id) {
@@ -63,20 +63,20 @@ public class HelpRequestController extends ApiController {
   }
 
   /**
-   * Create a new helprequest
+   * Create a new Help Request
    *
-   * @param requesterEmail
-   * @param teamId
-   * @param tableOrBreakoutRoom
-   * @param requestTime
-   * @param explanation
-   * @param solved
-   * @return the newly created HelpRequest
+   * @param requesterEmail email of requesting student
+   * @param teamId team id of requesting student
+   * @param tableOrBreakoutRoom table/breakout room number of requesting student
+   * @param requestTime the date and time of request submission in local time
+   * @param explanation reason/explanation for request
+   * @param solved true iff request has been solved
+   * @return the saved HelpRequest
    */
-  @Operation(summary = "Create a new helprequest")
+  @Operation(summary = "Create a new Help Request")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/post")
-  public HelpRequest postHelpRequests(
+  public HelpRequest postHelpRequest(
       @Parameter(name = "requesterEmail") @RequestParam String requesterEmail,
       @Parameter(name = "teamId") @RequestParam String teamId,
       @Parameter(name = "tableOrBreakoutRoom") @RequestParam String tableOrBreakoutRoom,
@@ -91,9 +91,6 @@ public class HelpRequestController extends ApiController {
           LocalDateTime requestTime)
       throws JsonProcessingException {
 
-    // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    // See: https://www.baeldung.com/spring-date-parameters
-
     log.info("requestTime={}", requestTime);
 
     HelpRequest helpRequest = new HelpRequest();
@@ -103,39 +100,19 @@ public class HelpRequestController extends ApiController {
     helpRequest.setRequestTime(requestTime);
     helpRequest.setExplanation(explanation);
     helpRequest.setSolved(solved);
+
     HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);
 
     return savedHelpRequest;
   }
 
   /**
-   * Update a single helprequest
+   * Delete a Help Request
    *
-   * @param id id of the helprequest to update
-   * @param incoming the new helprequest data
-   * @return the updated helprequest object
+   * @param id the id of the Help Request to delete
+   * @return a message indicating the Help Request was deleted
    */
-  @Operation(summary = "Update a single helprequest")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  @PutMapping
-  public HelpRequest updateHelpRequest(
-      @Parameter(name = "id") @RequestParam Long id, @RequestBody @Valid HelpRequest incoming) {
-
-    if (helpRequestRepository.findById(id).isEmpty()) {
-      throw new EntityNotFoundException(HelpRequest.class, id);
-    }
-
-    helpRequestRepository.save(incoming);
-    return incoming;
-  }
-
-  /**
-   * Delete a HelpRequest
-   *
-   * @param id the id of the helpRequest to delete
-   * @return a message indicating the helpRequest was deleted
-   */
-  @Operation(summary = "Delete a helpRequest")
+  @Operation(summary = "Delete a Help Request")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("")
   public Object deleteHelpRequest(@Parameter(name = "id") @RequestParam Long id) {
@@ -146,5 +123,35 @@ public class HelpRequestController extends ApiController {
 
     helpRequestRepository.delete(helpRequest);
     return genericMessage("HelpRequest with id %s deleted".formatted(id));
+  }
+
+  /**
+   * Update a single Help Request
+   *
+   * @param id id of the Help Request to update
+   * @param incoming the new Help Request
+   * @return the updated Help Request object
+   */
+  @Operation(summary = "Update a single Help Request")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PutMapping("")
+  public HelpRequest updateHelpRequest(
+      @Parameter(name = "id") @RequestParam Long id, @RequestBody @Valid HelpRequest incoming) {
+
+    HelpRequest helpRequest =
+        helpRequestRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+    helpRequest.setRequesterEmail(incoming.getRequesterEmail());
+    helpRequest.setTeamId(incoming.getTeamId());
+    helpRequest.setTableOrBreakoutRoom(incoming.getTableOrBreakoutRoom());
+    helpRequest.setRequestTime(incoming.getRequestTime());
+    helpRequest.setExplanation(incoming.getExplanation());
+    helpRequest.setSolved(incoming.getSolved());
+
+    helpRequestRepository.save(helpRequest);
+
+    return helpRequest;
   }
 }
