@@ -7,6 +7,10 @@ import UCSBDatesIndexPage from "main/pages/UCSBDates/UCSBDatesIndexPage";
 import UCSBDatesCreatePage from "main/pages/UCSBDates/UCSBDatesCreatePage";
 import UCSBDatesEditPage from "main/pages/UCSBDates/UCSBDatesEditPage";
 
+import RecommendationRequestIndexPage from "main/pages/RecommendationRequest/RecommendationRequestIndexPage";
+import RecommendationRequestCreatePage from "main/pages/RecommendationRequest/RecommendationRequestCreatePage";
+import RecommendationRequestEditPage from "main/pages/RecommendationRequest/RecommendationRequestEditPage";
+
 import RestaurantIndexPage from "main/pages/Restaurants/RestaurantIndexPage";
 import RestaurantCreatePage from "main/pages/Restaurants/RestaurantCreatePage";
 import RestaurantEditPage from "main/pages/Restaurants/RestaurantEditPage";
@@ -19,6 +23,14 @@ import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
 import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
 
+import ArticlesIndexPage from "main/pages/Articles/ArticlesIndexPage";
+import ArticlesCreatePage from "main/pages/Articles/ArticlesCreatePage";
+import ArticlesEditPage from "main/pages/Articles/ArticlesEditPage";
+
+import MenuItemReviewsIndexPage from "main/pages/MenuItemReviews/MenuItemReviewsIndexPage";
+import MenuItemReviewsCreatePage from "main/pages/MenuItemReviews/MenuItemReviewsCreatePage";
+import MenuItemReviewsEditPage from "main/pages/MenuItemReviews/MenuItemReviewsEditPage";
+
 import { hasRole, useCurrentUser } from "main/utils/useCurrentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -29,88 +41,117 @@ function App() {
 
   return (
     <Routes>
-      <Route exact path="/" element={<HomePage />} />
-      <Route exact path="/profile" element={<ProfilePage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+
       {hasRole(currentUser, "ROLE_ADMIN") && (
-        <Route exact path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
       )}
+
+      {/* UCSB Dates */}
       {hasRole(currentUser, "ROLE_USER") && (
-        <>
-          <Route exact path="/ucsbdates" element={<UCSBDatesIndexPage />} />
-        </>
+        <Route path="/ucsbdates" element={<UCSBDatesIndexPage />} />
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <>
-          <Route
-            exact
-            path="/ucsbdates/edit/:id"
-            element={<UCSBDatesEditPage />}
-          />
-          <Route
-            exact
-            path="/ucsbdates/create"
-            element={<UCSBDatesCreatePage />}
-          />
+          <Route path="/ucsbdates/edit/:id" element={<UCSBDatesEditPage />} />
+          <Route path="/ucsbdates/create" element={<UCSBDatesCreatePage />} />
         </>
       )}
+
+      {/* Restaurants */}
       {hasRole(currentUser, "ROLE_USER") && (
+        <Route path="/restaurants" element={<RestaurantIndexPage />} />
+      )}
+      {hasRole(currentUser, "ROLE_ADMIN") && (
         <>
-          <Route exact path="/restaurants" element={<RestaurantIndexPage />} />
+          <Route path="/restaurants/edit/:id" element={<RestaurantEditPage />} />
+          <Route path="/restaurants/create" element={<RestaurantCreatePage />} />
         </>
+      )}
+
+      {/* Recommendation Request */}
+      {hasRole(currentUser, "ROLE_USER") && (
+        <Route
+          path="/recommendationRequest"
+          element={<RecommendationRequestIndexPage />}
+        />
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <>
           <Route
-            exact
-            path="/restaurants/edit/:id"
-            element={<RestaurantEditPage />}
+            path="/recommendationRequest/edit/:id"
+            element={<RecommendationRequestEditPage />}
           />
           <Route
-            exact
-            path="/restaurants/create"
-            element={<RestaurantCreatePage />}
+            path="/recommendationRequest/create"
+            element={<RecommendationRequestCreatePage />}
           />
         </>
       )}
 
+      {/* MenuItemReviews */}
       {hasRole(currentUser, "ROLE_USER") && (
-        <>
-          <Route exact path="/helprequests" element={<HelpRequestIndexPage />} />
-        </>
+        <Route
+          path="/menuItemReviews"
+          element={<MenuItemReviewsIndexPage />}
+        />
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <>
           <Route
-            exact
+            path="/menuItemReviews/edit/:id"
+            element={<MenuItemReviewsEditPage />}
+          />
+          <Route
+            path="/menuItemReviews/create"
+            element={<MenuItemReviewsCreatePage />}
+          />
+        </>
+      )}
+
+      {/* Help Requests */}
+      {hasRole(currentUser, "ROLE_USER") && (
+        <Route path="/helprequests" element={<HelpRequestIndexPage />} />
+      )}
+      {hasRole(currentUser, "ROLE_ADMIN") && (
+        <>
+          <Route
             path="/helprequests/edit/:id"
             element={<HelpRequestEditPage />}
           />
           <Route
-            exact
             path="/helprequests/create"
             element={<HelpRequestCreatePage />}
           />
         </>
       )}
 
-
+      {/* Placeholder */}
       {hasRole(currentUser, "ROLE_USER") && (
-        <>
-          <Route exact path="/placeholder" element={<PlaceholderIndexPage />} />
-        </>
+        <Route path="/placeholder" element={<PlaceholderIndexPage />} />
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <>
           <Route
-            exact
             path="/placeholder/edit/:id"
             element={<PlaceholderEditPage />}
           />
           <Route
-            exact
             path="/placeholder/create"
             element={<PlaceholderCreatePage />}
           />
+        </>
+      )}
+
+      {/* Articles */}
+      {hasRole(currentUser, "ROLE_USER") && (
+        <Route path="/articles" element={<ArticlesIndexPage />} />
+      )}
+      {hasRole(currentUser, "ROLE_ADMIN") && (
+        <>
+          <Route path="/articles/edit/:id" element={<ArticlesEditPage />} />
+          <Route path="/articles/create" element={<ArticlesCreatePage />} />
         </>
       )}
     </Routes>
