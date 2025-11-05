@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import UCSBDiningCommonsMenuItemsCreatePage from "main/pages/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemsCreatePage";
+import UCSBOrganizationCreatePage from "main/pages/UCSBOrganization/UCSBOrganizationCreatePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router";
 
@@ -30,7 +30,7 @@ vi.mock("react-router", async (importOriginal) => {
   };
 });
 
-describe("UCSBDiningCommonsMenuItemsCreatePage tests", () => {
+describe("UCSBOrganizationCreatePage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
   beforeEach(() => {
@@ -50,72 +50,83 @@ describe("UCSBDiningCommonsMenuItemsCreatePage tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsCreatePage />
+          <UCSBOrganizationCreatePage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Dining Commons Code")).toBeInTheDocument();
+      expect(
+        screen.getByLabelText("Organization Translation"),
+      ).toBeInTheDocument();
     });
   });
 
-  test("on submit, makes request to backend, and redirects to /ucsbdiningcommonsmenuitems", async () => {
+  test("on submit, makes request to backend, and redirects to /ucsborganization", async () => {
     const queryClient = new QueryClient();
-    const ucsbDiningCommonsMenuItem = {
-      id: 3,
-      diningCommonsCode: "ortega",
-      name: "Baked Pesto Pasta with Chicken",
-      station: "Entree Specials",
+    const organization = {
+      orgCode: "ZPR",
+      orgTranslationShort: "ZETA PHI RHO",
+      orgTranslation: "ZETA PHI RHO",
+      inactive: false,
     };
 
-    axiosMock
-      .onPost("/api/ucsbdiningcommonsmenuitems/post")
-      .reply(202, ucsbDiningCommonsMenuItem);
+    axiosMock.onPost("/api/ucsborganization/post").reply(202, organization);
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsCreatePage />
+          <UCSBOrganizationCreatePage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Dining Commons Code")).toBeInTheDocument();
+      expect(screen.getByLabelText("Organization Code")).toBeInTheDocument();
     });
 
-    const diningCommonsCodeInput = screen.getByLabelText("Dining Commons Code");
-    expect(diningCommonsCodeInput).toBeInTheDocument();
+    const orgCodeInput = screen.getByLabelText("Organization Code");
+    expect(orgCodeInput).toBeInTheDocument();
 
-    const nameInput = screen.getByLabelText("Name");
-    expect(nameInput).toBeInTheDocument();
+    const orgTranslationShortInput = screen.getByLabelText(
+      "Short Organization Translation",
+    );
+    expect(orgTranslationShortInput).toBeInTheDocument();
 
-    const stationInput = screen.getByLabelText("Station");
-    expect(stationInput).toBeInTheDocument();
+    const orgTranslationInput = screen.getByLabelText(
+      "Organization Translation",
+    );
+    expect(orgTranslationInput).toBeInTheDocument();
+
+    const inactiveInput = screen.getByLabelText("Inactive Status");
+    expect(inactiveInput).toBeInTheDocument();
 
     const createButton = screen.getByText("Create");
     expect(createButton).toBeInTheDocument();
 
-    fireEvent.change(diningCommonsCodeInput, { target: { value: "ortega" } });
-    fireEvent.change(nameInput, {
-      target: { value: "Baked Pesto Pasta with Chicken" },
+    fireEvent.change(orgCodeInput, { target: { value: "ZPR" } });
+    fireEvent.change(orgTranslationShortInput, {
+      target: { value: "ZETA PHI RHO" },
     });
-    fireEvent.change(stationInput, { target: { value: "Entree Specials" } });
+    fireEvent.change(orgTranslationInput, {
+      target: { value: "ZETA PHI RHO" },
+    });
+    fireEvent.change(inactiveInput, { target: { value: false } });
     fireEvent.click(createButton);
 
     await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
     expect(axiosMock.history.post[0].params).toEqual({
-      diningCommonsCode: "ortega",
-      name: "Baked Pesto Pasta with Chicken",
-      station: "Entree Specials",
+      orgCode: "ZPR",
+      orgTranslationShort: "ZETA PHI RHO",
+      orgTranslation: "ZETA PHI RHO",
+      inactive: "false",
     });
 
     // assert - check that the toast was called with the expected message
-    expect(mockToast).toBeCalledWith(
-      "New UCSB Dining Commons Menu Item Created - id: 3 diningCommonsCode: ortega",
+    expect(mockToast).toHaveBeenCalledWith(
+      "New organization Created - orgCode: ZPR orgTranslation: ZETA PHI RHO",
     );
-    expect(mockNavigate).toBeCalledWith({ to: "/ucsbdiningcommonsmenuitems" });
+    expect(mockNavigate).toHaveBeenCalledWith({ to: "/ucsborganization" });
   });
 });

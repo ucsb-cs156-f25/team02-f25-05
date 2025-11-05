@@ -1,9 +1,9 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import UCSBDiningCommonsMenuItemsIndexPage from "main/pages/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemsIndexPage";
+import RecommendationRequestIndexPage from "main/pages/RecommendationRequest/RecommendationRequestIndexPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router";
 import mockConsole from "tests/testutils/mockConsole";
-import { ucsbDiningCommonsMenuItemFixtures } from "fixtures/ucsbDiningCommonsMenuItemFixtures";
+import { recommendationRequestFixtures } from "fixtures/recommendationRequestFixtures";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
@@ -19,10 +19,10 @@ vi.mock("react-toastify", async (importOriginal) => {
   };
 });
 
-describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
+describe("RecommendationRequestIndexPage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
-  const testId = "UCSBDiningCommonsMenuItemTable";
+  const testId = "recommendationRequestTable";
 
   const setupUserOnly = () => {
     axiosMock.reset();
@@ -50,88 +50,97 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
 
   test("Renders with Create Button for admin user", async () => {
     setupAdminUser();
-    axiosMock.onGet("/api/ucsbdiningcommonsmenuitems/all").reply(200, []);
+    axiosMock.onGet("/api/recommendationrequest/all").reply(200, []);
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsIndexPage />
+          <RecommendationRequestIndexPage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
       expect(
-        screen.getByText(/Create UCSB Dining Commons Menu Item/),
+        screen.getByText(/Create RecommendationRequest/),
       ).toBeInTheDocument();
     });
-    const button = screen.getByText(/Create UCSB Dining Commons Menu Item/);
-    expect(button).toHaveAttribute(
-      "href",
-      "/ucsbdiningcommonsmenuitems/create",
-    );
+    const button = screen.getByText(/Create RecommendationRequest/);
+    expect(button).toHaveAttribute("href", "/recommendationRequest/create");
     expect(button).toHaveAttribute("style", "float: right;");
   });
 
-  test("renders three UCSB Dining Commons Menu Items correctly for regular user", async () => {
+  test("renders three Recommendation Requests correctly for regular user", async () => {
     setupUserOnly();
     axiosMock
-      .onGet("/api/ucsbdiningcommonsmenuitems/all")
-      .reply(
-        200,
-        ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems,
-      );
+      .onGet("/api/recommendationrequest/all")
+      .reply(200, recommendationRequestFixtures.threeRequests);
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsIndexPage />
+          <RecommendationRequestIndexPage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
-      // expect(axiosMock.history.get.length).toBeGreaterThan(0);
       expect(
         screen.getByTestId(`${testId}-cell-row-0-col-id`),
-      ).toHaveTextContent("3");
+      ).toHaveTextContent("1");
     });
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
-      "4",
+      "2",
     );
     expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(
-      "5",
+      "3",
     );
 
-    const createUCSBDiningCommonsMenuItemButton = screen.queryByText(
-      "Create UCSB Dining Commons Menu Item",
+    const createRecommendationRequestButton = screen.queryByText(
+      "Create RecommendationRequest",
     );
-    expect(createUCSBDiningCommonsMenuItemButton).not.toBeInTheDocument();
+    expect(createRecommendationRequestButton).not.toBeInTheDocument();
 
-    // const diningCommonsCode = screen.getByText("ortega");
-    // expect(diningCommonsCode).toBeInTheDocument();
+    const requesterEmail = screen.getByText("student2@ucsb.edu");
+    expect(requesterEmail).toBeInTheDocument();
 
-    const diningCommonsCode = await screen.findAllByText("ortega");
-    expect(diningCommonsCode).toHaveLength(3);
+    const professorEmail = screen.getByText("prof2@ucsb.edu");
+    expect(professorEmail).toBeInTheDocument();
 
-    const name = screen.getByText("Baked Pesto Pasta with Chicken");
-    expect(name).toBeInTheDocument();
-
-    // const station = screen.getByText("Entree Specials");
-    // expect(station).toBeInTheDocument();
-
-    const station = await screen.findAllByText("Entree Specials");
-    expect(station).toHaveLength(2);
+    const explanation = screen.getByText("More salad!");
+    expect(explanation).toBeInTheDocument();
 
     // for non-admin users, details button is visible, but the edit and delete buttons should not be visible
     expect(
       screen.queryByTestId(
-        "UCSBDiningCommonsMenuItemTable-cell-row-0-col-Delete-button",
+        "RecommendationRequestTable-cell-row-0-col-Delete-button",
       ),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByTestId(
-        "UCSBDiningCommonsMenuItemTable-cell-row-0-col-Edit-button",
+        "RecommendationRequestTable-cell-row-0-col-Edit-button",
+      ),
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByTestId(
+        "RecommendationRequestTable-cell-row-1-col-Delete-button",
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId(
+        "RecommendationRequestTable-cell-row-1-col-Edit-button",
+      ),
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByTestId(
+        "RecommendationRequestTable-cell-row-2-col-Delete-button",
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId(
+        "RecommendationRequestTable-cell-row-2-col-Edit-button",
       ),
     ).not.toBeInTheDocument();
   });
@@ -139,14 +148,14 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
   test("renders empty table when backend unavailable, user only", async () => {
     setupUserOnly();
 
-    axiosMock.onGet("/api/ucsbdiningcommonsmenuitems/all").timeout();
+    axiosMock.onGet("/api/recommendationrequest/all").timeout();
 
     const restoreConsole = mockConsole();
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsIndexPage />
+          <RecommendationRequestIndexPage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
@@ -157,7 +166,7 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
 
     const errorMessage = console.error.mock.calls[0][0];
     expect(errorMessage).toMatch(
-      "Error communicating with backend via GET on /api/ucsbdiningcommonsmenuitems/all",
+      "Error communicating with backend via GET on /api/recommendationrequest/all",
     );
     restoreConsole();
   });
@@ -166,19 +175,16 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
     setupAdminUser();
 
     axiosMock
-      .onGet("/api/ucsbdiningcommonsmenuitems/all")
-      .reply(
-        200,
-        ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems,
-      );
+      .onGet("/api/recommendationrequest/all")
+      .reply(200, recommendationRequestFixtures.threeRequests);
     axiosMock
-      .onDelete("/api/ucsbdiningcommonsmenuitems")
-      .reply(200, "UCSB Dining Commons Menu Item with id 3 was deleted");
+      .onDelete("/api/recommendationrequest")
+      .reply(200, "RecommendationRequest with id 1 was deleted");
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemsIndexPage />
+          <RecommendationRequestIndexPage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
@@ -190,7 +196,7 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
     });
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(
-      "3",
+      "1",
     );
 
     const deleteButton = await screen.findByTestId(
@@ -202,16 +208,14 @@ describe("UCSBDiningCommonsMenuItemsIndexPage tests", () => {
 
     await waitFor(() => {
       expect(mockToast).toBeCalledWith(
-        "UCSB Dining Commons Menu Item with id 3 was deleted",
+        "RecommendationRequest with id 1 was deleted",
       );
     });
 
     await waitFor(() => {
       expect(axiosMock.history.delete.length).toBe(1);
     });
-    expect(axiosMock.history.delete[0].url).toBe(
-      "/api/ucsbdiningcommonsmenuitems",
-    );
-    expect(axiosMock.history.delete[0].params).toEqual({ id: 3 });
+    expect(axiosMock.history.delete[0].url).toBe("/api/recommendationrequest");
+    expect(axiosMock.history.delete[0].params).toEqual({ id: 1 });
   });
 });
