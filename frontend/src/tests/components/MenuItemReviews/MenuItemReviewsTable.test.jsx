@@ -270,3 +270,4 @@ describe("MenuItemReviewsTable tests", () => {
     expect(axiosMock.history.delete[0].params).toEqual({ id: 1 });
   });
 });
+

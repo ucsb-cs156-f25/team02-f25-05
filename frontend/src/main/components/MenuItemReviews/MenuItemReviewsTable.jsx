@@ -61,6 +61,7 @@ export default function Table({
     },
   ];
 
+
   if (hasRole(currentUser, "ROLE_ADMIN")) {
     columns.push(ButtonColumn("Edit", "primary", editCallback, testIdPrefix));
     columns.push(
