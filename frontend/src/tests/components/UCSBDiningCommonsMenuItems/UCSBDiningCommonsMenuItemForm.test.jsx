@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
-import UCSBOrganizationForm from "main/components/UCSBOrganization/UCSBOrganizationForm";
-import { ucsbOrganizationFixtures } from "fixtures/ucsbOrganizationFixtures";
+import UCSBDiningCommonsMenuItemForm from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemForm";
+import { ucsbDiningCommonsMenuItemFixtures } from "fixtures/ucsbDiningCommonsMenuItemFixtures";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -15,22 +15,17 @@ vi.mock("react-router", async () => {
   };
 });
 
-describe("UCSBOrganizationForm tests", () => {
+describe("UCSBDiningCommonsMenuItemForm tests", () => {
   const queryClient = new QueryClient();
 
-  const expectedHeaders = [
-    "Organization Code",
-    "Short Organization Translation",
-    "Organization Translation",
-    "Inactive Status",
-  ];
-  const testId = "UCSBOrganizationForm";
+  const expectedHeaders = ["Dining Commons Code", "Name", "Station"];
+  const testId = "UCSBDiningCommonsMenuItemForm";
 
   test("renders correctly with no initialContents", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <UCSBDiningCommonsMenuItemForm />
         </Router>
       </QueryClientProvider>,
     );
@@ -47,8 +42,10 @@ describe("UCSBOrganizationForm tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm
-            initialContents={ucsbOrganizationFixtures.oneOrganization}
+          <UCSBDiningCommonsMenuItemForm
+            initialContents={
+              ucsbDiningCommonsMenuItemFixtures.oneUCSBDiningCommonsMenuItem
+            }
           />
         </Router>
       </QueryClientProvider>,
@@ -61,15 +58,15 @@ describe("UCSBOrganizationForm tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(await screen.findByTestId(`${testId}-orgCode`)).toBeInTheDocument();
-    expect(screen.getByText(`Organization Code`)).toBeInTheDocument();
+    expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
+    expect(screen.getByText(`Id`)).toBeInTheDocument();
   });
 
   test("that navigate(-1) is called when Cancel is clicked", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <UCSBDiningCommonsMenuItemForm />
         </Router>
       </QueryClientProvider>,
     );
@@ -85,7 +82,7 @@ describe("UCSBOrganizationForm tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <UCSBDiningCommonsMenuItemForm />
         </Router>
       </QueryClientProvider>,
     );
@@ -94,23 +91,20 @@ describe("UCSBOrganizationForm tests", () => {
     const submitButton = screen.getByText(/Create/);
     fireEvent.click(submitButton);
 
-    await screen.findByText(/Organization code is required./);
-    expect(
-      screen.getByText(/^Short Organization Translation is required./),
-    ).toBeInTheDocument();
+    await screen.findByText(/Dining Commons Code is required/);
+    expect(screen.getByText(/Name is required/)).toBeInTheDocument();
+    expect(screen.getByText(/Station is required/)).toBeInTheDocument();
 
-    expect(
-      screen.getByText(/^Organization Translation is required./),
-    ).toBeInTheDocument();
-
-    const orgCodeInput = screen.getByTestId(`${testId}-orgCode`);
-    fireEvent.change(orgCodeInput, {
-      target: { value: "a".repeat(31) },
+    const diningCommonsCodeInput = screen.getByTestId(
+      `${testId}-diningCommonsCode`,
+    );
+    fireEvent.change(diningCommonsCodeInput, {
+      target: { value: "a".repeat(256) },
     });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/Max length 30 characters/)).toBeInTheDocument();
+      expect(screen.getByText(/Max length 255 characters/)).toBeInTheDocument();
     });
   });
 });

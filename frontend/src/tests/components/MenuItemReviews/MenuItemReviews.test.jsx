@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router";
 
-import UCSBOrganizationForm from "main/components/UCSBOrganization/UCSBOrganizationForm";
-import { ucsbOrganizationFixtures } from "fixtures/ucsbOrganizationFixtures";
+import MenuItemReviewsForm from "main/components/MenuItemReviews/MenuItemReviewsForm";
+import { menuItemReviewsFixtures } from "fixtures/menuItemReviewsFixtures";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -15,22 +15,23 @@ vi.mock("react-router", async () => {
   };
 });
 
-describe("UCSBOrganizationForm tests", () => {
+describe("MenuItemReviewsForm tests", () => {
   const queryClient = new QueryClient();
+  const testId = "MenuItemReviewsForm";
 
   const expectedHeaders = [
-    "Organization Code",
-    "Short Organization Translation",
-    "Organization Translation",
-    "Inactive Status",
+    "Item Id",
+    "Reviewer Email",
+    "Stars",
+    "Date Reviewed(iso format)",
+    "Comments",
   ];
-  const testId = "UCSBOrganizationForm";
 
   test("renders correctly with no initialContents", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <MenuItemReviewsForm />
         </Router>
       </QueryClientProvider>,
     );
@@ -47,8 +48,8 @@ describe("UCSBOrganizationForm tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm
-            initialContents={ucsbOrganizationFixtures.oneOrganization}
+          <MenuItemReviewsForm
+            initialContents={menuItemReviewsFixtures.oneReview}
           />
         </Router>
       </QueryClientProvider>,
@@ -61,18 +62,19 @@ describe("UCSBOrganizationForm tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(await screen.findByTestId(`${testId}-orgCode`)).toBeInTheDocument();
-    expect(screen.getByText(`Organization Code`)).toBeInTheDocument();
+    expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
+    expect(screen.getByText(`Id`)).toBeInTheDocument();
   });
 
   test("that navigate(-1) is called when Cancel is clicked", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <MenuItemReviewsForm />
         </Router>
       </QueryClientProvider>,
     );
+
     expect(await screen.findByTestId(`${testId}-cancel`)).toBeInTheDocument();
     const cancelButton = screen.getByTestId(`${testId}-cancel`);
 
@@ -85,7 +87,7 @@ describe("UCSBOrganizationForm tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <Router>
-          <UCSBOrganizationForm />
+          <MenuItemReviewsForm />
         </Router>
       </QueryClientProvider>,
     );
@@ -94,19 +96,31 @@ describe("UCSBOrganizationForm tests", () => {
     const submitButton = screen.getByText(/Create/);
     fireEvent.click(submitButton);
 
-    await screen.findByText(/Organization code is required./);
-    expect(
-      screen.getByText(/^Short Organization Translation is required./),
-    ).toBeInTheDocument();
+    await screen.findByText(/itemId is required/);
+    expect(screen.getByText(/ReviewerEmail is required/)).toBeInTheDocument();
+    expect(screen.getByText(/stars is required/)).toBeInTheDocument();
+    expect(screen.getByText(/DateReviewed is required/)).toBeInTheDocument();
+    expect(screen.getByText(/Comments is required/)).toBeInTheDocument();
 
-    expect(
-      screen.getByText(/^Organization Translation is required./),
-    ).toBeInTheDocument();
+    const itemIdInput = screen.getByTestId(`${testId}-itemId`);
+    fireEvent.change(itemIdInput, { target: { value: "123" } });
 
-    const orgCodeInput = screen.getByTestId(`${testId}-orgCode`);
-    fireEvent.change(orgCodeInput, {
-      target: { value: "a".repeat(31) },
-    });
+    const reviewerEmailInput = screen.getByTestId(`${testId}-reviewerEmail`);
+    fireEvent.change(reviewerEmailInput, { target: { value: "a".repeat(31) } });
+
+    const starsInput = screen.getByTestId(`${testId}-stars`);
+    fireEvent.change(starsInput, { target: { value: 5 } });
+
+    const dateReviewedInput = screen.getByTestId(`${testId}-dateReviewed`);
+    fireEvent.change(dateReviewedInput, { target: { value: "2025-11-02" } });
+
+    const commentsInput = screen.getByTestId(`${testId}-comments`);
+    fireEvent.change(commentsInput, { target: { value: "b".repeat(31) } });
+	
+	const submitButtonById = screen.getByTestId(`${testId}-submit`);
+	fireEvent.click(submitButtonById);
+
+
     fireEvent.click(submitButton);
 
     await waitFor(() => {
