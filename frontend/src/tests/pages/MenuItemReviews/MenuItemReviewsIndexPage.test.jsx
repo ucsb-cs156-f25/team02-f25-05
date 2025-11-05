@@ -61,7 +61,9 @@ describe("MenuItemReviewsIndexPage tests", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Create MenuItemReviews/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Create MenuItemReviews/),
+      ).toBeInTheDocument();
     });
 
     const button = screen.getByText(/Create MenuItemReviews/);
@@ -89,12 +91,12 @@ describe("MenuItemReviewsIndexPage tests", () => {
       ).toHaveTextContent("1");
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
-      "2",
-    );
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(
-      "3",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-id`),
+    ).toHaveTextContent("2");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-2-col-id`),
+    ).toHaveTextContent("3");
 
     const createButton = screen.queryByText("Create MenuItemReviews");
     expect(createButton).not.toBeInTheDocument();
@@ -164,9 +166,9 @@ describe("MenuItemReviewsIndexPage tests", () => {
       ).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(
-      "1",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-id`),
+    ).toHaveTextContent("1");
 
     const deleteButton = await screen.findByTestId(
       `${testId}-cell-row-0-col-Delete-button`,
@@ -176,7 +178,9 @@ describe("MenuItemReviewsIndexPage tests", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(mockToast).toBeCalledWith("MenuItemReview with id 1 was deleted");
+      expect(mockToast).toBeCalledWith(
+        "MenuItemReview with id 1 was deleted",
+      );
     });
 
     await waitFor(() => {
@@ -186,3 +190,4 @@ describe("MenuItemReviewsIndexPage tests", () => {
     expect(axiosMock.history.delete[0].params).toEqual({ id: 1 });
   });
 });
+
