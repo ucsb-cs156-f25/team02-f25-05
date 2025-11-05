@@ -35,7 +35,15 @@ Default.parameters = {
       );
     }),
     http.put("/api/ucsbdiningcommonsmenuitems", () => {
-      return HttpResponse.json({}, { status: 200 });
+      return HttpResponse.json(
+        {
+          id: 17,
+          diningCommonsCode: "carrillo",
+          name: "Lasagna",
+          station: "Dinner",
+        },
+        { status: 200 },
+      );
     }),
   ],
 };
