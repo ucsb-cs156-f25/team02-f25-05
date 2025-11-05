@@ -2,21 +2,21 @@ import React from "react";
 import { useBackend } from "main/utils/useBackend";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import UCSBDiningCommonsMenuItemTable from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemTable";
+import UCSBOrganizationTable from "main/components/UCSBOrganization/UCSBOrganizationTable";
 import { useCurrentUser, hasRole } from "main/utils/useCurrentUser";
 import { Button } from "react-bootstrap";
 
-export default function UCSBDiningCommonsMenuItemsIndexPage() {
+export default function UCSBOrganizationIndexPage() {
   const currentUser = useCurrentUser();
 
   const {
-    data: ucsbDiningCommonsMenuItems,
+    data: organization,
     error: _error,
     status: _status,
   } = useBackend(
     // Stryker disable next-line all : don't test internal caching of React Query
-    ["/api/ucsbdiningcommonsmenuitems/all"],
-    { method: "GET", url: "/api/ucsbdiningcommonsmenuitems/all" },
+    ["/api/ucsborganization/all"],
+    { method: "GET", url: "/api/ucsborganization/all" },
     // Stryker disable next-line all : don't test default value of empty list
     [],
   );
@@ -26,10 +26,10 @@ export default function UCSBDiningCommonsMenuItemsIndexPage() {
       return (
         <Button
           variant="primary"
-          href="/ucsbdiningcommonsmenuitems/create"
+          href="/ucsborganization/create"
           style={{ float: "right" }}
         >
-          Create UCSB Dining Commons Menu Item
+          Create Organization
         </Button>
       );
     }
@@ -39,9 +39,9 @@ export default function UCSBDiningCommonsMenuItemsIndexPage() {
     <BasicLayout>
       <div className="pt-2">
         {createButton()}
-        <h1>UCSB Dining Commons Menu Items</h1>
-        <UCSBDiningCommonsMenuItemTable
-          ucsbDiningCommonsMenuItems={ucsbDiningCommonsMenuItems}
+        <h1>Organization</h1>
+        <UCSBOrganizationTable
+          organization={organization}
           currentUser={currentUser}
         />
       </div>
