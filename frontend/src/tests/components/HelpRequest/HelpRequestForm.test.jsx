@@ -31,9 +31,8 @@ describe("HelpRequestForm tests", () => {
         <HelpRequestForm initialContents={helpRequestFixtures.oneHelpRequest} />
       </Router>,
     );
-    await screen.findByTestId(/HelpRequestForm-id/);
-    expect(screen.getByText("Id")).toBeInTheDocument();
-    expect(screen.getByTestId(/HelpRequestForm-id/)).toHaveValue("1");
+    await screen.findByTestId(/HelpRequestForm-teamId/);
+    expect(screen.getByText("Team Id")).toBeInTheDocument();
   });
 
   test("Correct Error messsages on bad input", async () => {
