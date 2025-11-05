@@ -83,19 +83,26 @@ describe("HelpRequestIndexPage tests", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1"); // CHANGED
+      expect(
+        screen.getByTestId(`${testId}-cell-row-0-col-id`),
+      ).toHaveTextContent("1"); // CHANGED
     });
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");   // CHANGED
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("3");   // CHANGED
-
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
+      "2",
+    ); // CHANGED
+    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(
+      "3",
+    ); // CHANGED
 
     const helpRequestButton = screen.queryByText("Create HelpRequest");
     expect(helpRequestButton).not.toBeInTheDocument();
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-requesterEmail`))
-      .toHaveTextContent("student1@ucsb.edu");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-teamId`))
-      .toHaveTextContent("02");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-requesterEmail`),
+    ).toHaveTextContent("student1@ucsb.edu");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-teamId`),
+    ).toHaveTextContent("02");
 
     // for non-admin users, details button is visible, but the edit and delete buttons should not be visible
     expect(

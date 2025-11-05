@@ -107,7 +107,6 @@ describe("HelpRequestCreatePage tests", () => {
     const createButton = screen.getByText("Create");
     expect(createButton).toBeInTheDocument();
 
-
     fireEvent.change(emailInput, { target: { value: "student2@ucsb.edu" } });
     fireEvent.change(teamIdInput, { target: { value: "02" } });
     fireEvent.change(tableInput, { target: { value: "5" } });
@@ -138,4 +137,3 @@ describe("HelpRequestCreatePage tests", () => {
     expect(mockNavigate).toBeCalledWith({ to: "/helprequests" });
   });
 });
-

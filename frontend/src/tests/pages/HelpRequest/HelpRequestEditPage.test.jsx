@@ -68,7 +68,9 @@ describe("HelpRequestEditPage tests", () => {
         </QueryClientProvider>,
       );
       await screen.findByText("Edit HelpRequest");
-      expect(screen.queryByTestId("HelpRequestForm-requesterEmail")).not.toBeInTheDocument(); //??????
+      expect(
+        screen.queryByTestId("HelpRequestForm-requesterEmail"),
+      ).not.toBeInTheDocument(); //??????
       restoreConsole();
     });
   });
@@ -128,9 +130,13 @@ describe("HelpRequestEditPage tests", () => {
       const idField = screen.getByTestId("HelpRequestForm-id");
       const emailField = screen.getByTestId("HelpRequestForm-requesterEmail");
       const teamIdField = screen.getByTestId("HelpRequestForm-teamId");
-      const tableField = screen.getByTestId("HelpRequestForm-tableOrBreakoutRoom");
+      const tableField = screen.getByTestId(
+        "HelpRequestForm-tableOrBreakoutRoom",
+      );
       const timeField = screen.getByTestId("HelpRequestForm-requestTime");
-      const explanationField = screen.getByTestId("HelpRequestForm-explanation");
+      const explanationField = screen.getByTestId(
+        "HelpRequestForm-explanation",
+      );
       const solvedSwitch = screen.getByTestId("HelpRequestForm-solved");
       const submitButton = screen.getByTestId("HelpRequestForm-submit");
 
@@ -149,7 +155,6 @@ describe("HelpRequestEditPage tests", () => {
       expect(solvedSwitch).toBeInTheDocument();
 
       expect(submitButton).toHaveTextContent("Update");
-
 
       // Make some changes
       fireEvent.change(emailField, { target: { value: "student2@ucsb.edu" } }); // keep same or change as you like
@@ -200,9 +205,13 @@ describe("HelpRequestEditPage tests", () => {
       const idField = screen.getByTestId("HelpRequestForm-id");
       const emailField = screen.getByTestId("HelpRequestForm-requesterEmail");
       const teamIdField = screen.getByTestId("HelpRequestForm-teamId");
-      const tableField = screen.getByTestId("HelpRequestForm-tableOrBreakoutRoom");
+      const tableField = screen.getByTestId(
+        "HelpRequestForm-tableOrBreakoutRoom",
+      );
       const timeField = screen.getByTestId("HelpRequestForm-requestTime");
-      const explanationField = screen.getByTestId("HelpRequestForm-explanation");
+      const explanationField = screen.getByTestId(
+        "HelpRequestForm-explanation",
+      );
       const submitButton = screen.getByTestId("HelpRequestForm-submit");
 
       expect(idField).toHaveValue("17");
@@ -213,7 +222,7 @@ describe("HelpRequestEditPage tests", () => {
       expect(explanationField).toHaveValue("React app not compiling.");
       expect(submitButton).toBeInTheDocument();
 
-        // Change a couple fields
+      // Change a couple fields
       fireEvent.change(tableField, { target: { value: "7" } });
       fireEvent.change(explanationField, {
         target: { value: "Issue resolved after cache clear." },

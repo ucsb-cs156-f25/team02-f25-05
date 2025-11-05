@@ -42,7 +42,9 @@ export default function RestaurantEditPage({ storybook = false }) {
   });
 
   const onSuccess = (helpRequest) => {
-    toast(`HelpRequest Updated - id: ${helpRequest.id} requester: ${helpRequest.requesterEmail}`);
+    toast(
+      `HelpRequest Updated - id: ${helpRequest.id} requester: ${helpRequest.requesterEmail}`,
+    );
   };
 
   const mutation = useBackendMutation(
