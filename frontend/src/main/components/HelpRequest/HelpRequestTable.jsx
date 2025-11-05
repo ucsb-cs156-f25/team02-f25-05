@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router";
 import { hasRole } from "main/utils/useCurrentUser";
 
-export default function HelpRequestTable({ helpRequests = [], currentUser }) {
+export default function HelpRequestTable({ helpRequests, currentUser }) {
   const navigate = useNavigate();
 
   const editCallback = (cell) => {
