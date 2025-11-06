@@ -125,8 +125,20 @@ public class HelpRequestController extends ApiController {
       throw new EntityNotFoundException(HelpRequest.class, id);
     }
 
-    helpRequestRepository.save(incoming);
-    return incoming;
+    HelpRequest existing =
+        helpRequestRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+    existing.setRequesterEmail(incoming.getRequesterEmail());
+    existing.setTeamId(incoming.getTeamId());
+    existing.setTableOrBreakoutRoom(incoming.getTableOrBreakoutRoom());
+    existing.setRequestTime(incoming.getRequestTime());
+    existing.setExplanation(incoming.getExplanation());
+    existing.setSolved(incoming.getSolved());
+
+    helpRequestRepository.save(existing);
+    return existing;
   }
 
   /**
