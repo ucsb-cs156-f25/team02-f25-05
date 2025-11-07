@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f25/team02-f25-05
 owner: ucsb-cs156-f25
 repo_name: team02-f25-05
-pull_requests: [{"author":{"id":"MDQ6VXNlcjkwNTI5Mzc0","is_bot":false,"login":"bsen1","name":"Brian Sen"},"headRefName":"bs-HelpRequest-integration-tests","number":158,"title":"BS - HelpRequest integration test","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/158"},{"author":{"id":"U_kgDOCM7mwQ","is_bot":false,"login":"jasminetan0510","name":""},"headRefName":"jt-UCSBDiningCommonsMenuItems-integration-tests","number":156,"title":"jt - add integration tests for UCSBDiningCommonsMenuItems Controller endpoints","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/156"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjkwNTI5Mzc0","is_bot":false,"login":"bsen1","name":"Brian Sen"},"headRefName":"bs-HelpRequest-integration-tests","number":158,"title":"BS - HelpRequest integration test","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/158"}]
