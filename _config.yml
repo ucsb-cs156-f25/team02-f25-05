@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f25/team02-f25-05
 owner: ucsb-cs156-f25
 repo_name: team02-f25-05
-pull_requests: [{"author":{"id":"U_kgDOCEli4w","is_bot":false,"login":"Hechenjin","name":""},"headRefName":"HY-recommendationRequest-integration-tests","number":154,"title":"HY-add integration tests for Recommendation Request Controller endpoints","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/154"}]
+pull_requests: [{"author":{"id":"U_kgDODfPQcg","is_bot":false,"login":"monraphael-maker","name":"mr-maker"},"headRefName":"MF-USCBOrganization-Integration-Tests","number":155,"title":"MF - implemented integration tests for UCSBOrganization Controller endpoints","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/155"}]
