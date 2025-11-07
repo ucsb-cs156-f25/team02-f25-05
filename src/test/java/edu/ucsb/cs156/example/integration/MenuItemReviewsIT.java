@@ -51,18 +51,29 @@ public class MenuItemReviewsIT {
   @Test
   public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
     // arrange
-
+    LocalDateTime dateReviewed = LocalDateTime.parse("2023-01-01T12:00:00");
     MenuItemReviews menuItemReviews =
-        MenuItemReviews.builder().name("Taco Bell").description("Mexican").build();
+        MenuItemReviews.builder()
+            .itemId(2L)
+            .reviewerEmail("test@gmail.com")
+            .stars(3)
+            .dateReviewed(dateReviewed)
+            .comments("great")
+            .build();
 
-    menuItemReviewsRepository.save(menuItemReviews);
+    // save the entity and get the auto-generated ID
+    MenuItemReviews savedReview = menuItemReviewsRepository.save(menuItemReviews);
+    Long id = savedReview.getId();
 
     // act
     MvcResult response =
-        mockMvc.perform(get("/api/menuitemreviews?id=1")).andExpect(status().isOk()).andReturn();
+        mockMvc
+            .perform(get("/api/menuitemreviews?id=" + id))
+            .andExpect(status().isOk())
+            .andReturn();
 
     // assert
-    String expectedJson = mapper.writeValueAsString();
+    String expectedJson = mapper.writeValueAsString(savedReview);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
   }
@@ -76,7 +87,7 @@ public class MenuItemReviewsIT {
     MenuItemReviews menuItemReviews1 =
         MenuItemReviews.builder()
             .id(1L)
-            .itemID(2L)
+            .itemId(2L)
             .reviewerEmail("test@gmail.com")
             .stars(3)
             .dateReviewed(dateReviewed)
@@ -87,7 +98,7 @@ public class MenuItemReviewsIT {
     MvcResult response =
         mockMvc
             .perform(
-                post("/api/menuitemreviews/post?itemID=2&reviewerEmail=test@gmail.com&stars=3&dateReviewed=2023-01-01T12:00:00&comments=great")
+                post("/api/menuitemreviews/post?itemId=2&reviewerEmail=test@gmail.com&stars=3&dateReviewed=2023-01-01T12:00:00&comments=great")
                     .with(csrf()))
             .andExpect(status().isOk())
             .andReturn();
