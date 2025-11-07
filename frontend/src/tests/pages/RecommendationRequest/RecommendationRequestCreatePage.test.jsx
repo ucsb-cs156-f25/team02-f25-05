@@ -134,12 +134,12 @@ describe("RecommendationRequestCreatePage tests", () => {
     await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
     const params = axiosMock.history.post[0].params;
-    expect(params.dateRequested).toMatch(/^2025-10-10T12:00:00$/);
-    expect(params.dateNeeded).toMatch(/^2025-11-12T10:00:00$/);
+    expect(params.dateRequested).toMatch(/^2025-10-10T12:00Z$/);
+    expect(params.dateNeeded).toMatch(/^2025-11-12T10:00Z$/);
 
-    // sanity checks: includes seconds
-    expect(params.dateRequested.endsWith(":00")).toBe(true);
-    expect(params.dateNeeded.endsWith(":00")).toBe(true);
+    // sanity checks: not missing or double-Z
+    expect(params.dateRequested.endsWith("Z")).toBe(true);
+    expect(params.dateRequested.endsWith("ZZ")).toBe(false);
 
     expect(axiosMock.history.post[0].params).toEqual(
       expect.objectContaining({
