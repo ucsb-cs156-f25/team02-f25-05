@@ -34,6 +34,10 @@ import MenuItemReviewsIndexPage from "main/pages/MenuItemReviews/MenuItemReviews
 import MenuItemReviewsCreatePage from "main/pages/MenuItemReviews/MenuItemReviewsCreatePage";
 import MenuItemReviewsEditPage from "main/pages/MenuItemReviews/MenuItemReviewsEditPage";
 
+import HelpRequestIndexPage from "main/pages/HelpRequest/HelpRequestIndexPage";
+import HelpRequestCreatePage from "main/pages/HelpRequest/HelpRequestCreatePage";
+import HelpRequestEditPage from "main/pages/HelpRequest/HelpRequestEditPage";
+
 import { hasRole, useCurrentUser } from "main/utils/useCurrentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -49,7 +53,6 @@ function App() {
       {hasRole(currentUser, "ROLE_ADMIN") && (
         <Route exact path="/admin/users" element={<AdminUsersPage />} />
       )}
-      
       // Ucsb dates
       {hasRole(currentUser, "ROLE_USER") && (
         <>
@@ -70,8 +73,7 @@ function App() {
           />
         </>
       )}
-      
-       // restaurants
+      // restaurants
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/restaurants" element={<RestaurantIndexPage />} />
@@ -91,7 +93,6 @@ function App() {
           />
         </>
       )}
-      
       // recommendationRequest
       {hasRole(currentUser, "ROLE_USER") && (
         <>
@@ -116,11 +117,14 @@ function App() {
           />
         </>
       )}
-     
-	  // menuItemReview
-	  {hasRole(currentUser, "ROLE_USER") && (
+      // menuItemReview
+      {hasRole(currentUser, "ROLE_USER") && (
         <>
-          <Route exact path="/menuItemReviews" element={<MenuItemReviewsIndexPage />} />
+          <Route
+            exact
+            path="/menuItemReviews"
+            element={<MenuItemReviewsIndexPage />}
+          />
         </>
       )}
       {hasRole(currentUser, "ROLE_ADMIN") && (
@@ -137,9 +141,7 @@ function App() {
           />
         </>
       )}
-
-  
-      // dinigcommons 
+      // dinigcommons
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route
@@ -163,8 +165,7 @@ function App() {
           />
         </>
       )}
-      
-       // organization 
+      // organization
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route
@@ -188,8 +189,6 @@ function App() {
           />
         </>
       )}
-      
-      
       //Placeholder
       {hasRole(currentUser, "ROLE_USER") && (
         <>
@@ -226,6 +225,22 @@ function App() {
             exact
             path="/articles/create"
             element={<ArticlesCreatePage />}
+          />
+        </>
+      )}
+      {/* Help Requests */}
+      {hasRole(currentUser, "ROLE_USER") && (
+        <Route path="/helprequests" element={<HelpRequestIndexPage />} />
+      )}
+      {hasRole(currentUser, "ROLE_ADMIN") && (
+        <>
+          <Route
+            path="/helprequests/edit/:id"
+            element={<HelpRequestEditPage />}
+          />
+          <Route
+            path="/helprequests/create"
+            element={<HelpRequestCreatePage />}
           />
         </>
       )}
