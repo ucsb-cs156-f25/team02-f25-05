@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f25/team02-f25-05
 owner: ucsb-cs156-f25
 repo_name: team02-f25-05
-pull_requests: [{"author":{"id":"MDQ6VXNlcjM5NzQ0NzMw","is_bot":false,"login":"kennedynguyen1","name":"Kennedy Nguyen"},"headRefName":"kn-Articles-e2e-test","number":168,"title":"KN - add ArticleWebIT end to end tests with Playwright","url":"https://github.com/ucsb-cs156-f25/team02-f25-05/pull/168"}]
+pull_requests: []
